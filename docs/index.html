@@ -14,118 +14,15 @@
         <div>
           <p class="eyebrow">Interview Prep Library</p>
           <h1>AI 面试资料库</h1>
+          <p class="lede">面向求职者的免费岗位资料库：高频问题、优秀回答、知识框架和避坑提醒。</p>
         </div>
-        <div class="userbar">
-          <div id="mode-badge" class="mode-badge">完全免费本地模式</div>
-        </div>
+        <div class="mode-badge">无需登录 · 不接 API · 纯资料库</div>
       </header>
 
-      <section class="view active" id="setup-view">
-        <section class="panel library-panel">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Library</p>
-              <h2>岗位面试资料库</h2>
-            </div>
-          </div>
-          <div class="library-tabs" id="library-tabs"></div>
-          <div id="library-content" class="library-content"></div>
-        </section>
-
-        <div class="layout">
-          <section class="panel">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">Step 1</p>
-                <h2>选择岗位</h2>
-              </div>
-            </div>
-            <div class="job-grid" id="job-grid"></div>
-          </section>
-
-          <aside class="panel">
-            <p class="eyebrow">Step 2</p>
-            <h2>上传 PDF 简历</h2>
-            <label class="dropzone" id="dropzone">
-              <input id="resume-file" type="file" accept="application/pdf" />
-              <span id="file-label">选择一份可复制文字的 PDF 简历</span>
-            </label>
-            <button id="start-btn">解析简历</button>
-            <p class="muted small">流程：自我介绍，5 道业务问题，每题最多一次追问，最后确认可实习时长、最快到岗和每周出勤。</p>
-          </aside>
-        </div>
-
-        <section class="panel history-panel">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">History</p>
-              <h2>历史报告</h2>
-            </div>
-          </div>
-          <div id="history-list" class="history-list"></div>
-        </section>
-      </section>
-
-      <section class="view" id="resume-preview-view">
-        <div class="panel report-panel">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Resume Parsed</p>
-              <h2>简历解析结果</h2>
-            </div>
-          </div>
-          <div id="resume-preview-content"></div>
-          <div class="actions">
-            <button id="confirm-interview-btn">确认，开始面试</button>
-            <button class="secondary" id="back-setup-btn">返回重选</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" id="interview-view">
-        <div class="interview-layout">
-          <section class="panel interview-main">
-            <div class="question-meta" id="question-meta"></div>
-            <h2 id="question-text"></h2>
-            <div class="meter">
-              <div class="meter-fill" id="meter-fill"></div>
-            </div>
-            <div class="recording-area">
-              <div class="wave" id="wave">
-                <span></span><span></span><span></span><span></span><span></span>
-              </div>
-              <div class="timer" id="timer">02:00</div>
-              <button id="record-btn">开始录音</button>
-            </div>
-            <p class="muted small" id="record-hint">每题最多 2 分钟。到时会自动结束并提交。</p>
-          </section>
-
-          <aside class="panel transcript-panel">
-            <p class="eyebrow">Transcript</p>
-            <h2>已完成回答</h2>
-            <div id="turn-list" class="turn-list"></div>
-          </aside>
-        </div>
-      </section>
-
-      <section class="view" id="report-view">
-        <div class="panel report-panel">
-          <div class="section-head">
-            <div>
-              <p class="eyebrow">Report</p>
-              <h2>面试评分报告</h2>
-            </div>
-            <div class="actions compact">
-              <button id="export-report-btn" class="secondary">导出报告</button>
-              <button id="new-interview-btn">再练一场</button>
-            </div>
-          </div>
-          <div id="report-content"></div>
-        </div>
-      </section>
+      <section class="role-tabs" id="role-tabs" aria-label="选择岗位"></section>
+      <section id="library-content" class="library-content"></section>
     </main>
 
-    <div class="toast" id="toast"></div>
     <script src="app.js" type="module"></script>
   </body>
 </html>

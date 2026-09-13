@@ -1,4 +1,4 @@
-const CACHE_NAME = "resume-interview-bot-v2";
+const CACHE_NAME = "resume-interview-bot-v3";
 const APP_SHELL = [
   "./",
   "index.html",

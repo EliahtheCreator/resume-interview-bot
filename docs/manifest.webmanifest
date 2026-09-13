@@ -1,0 +1,10 @@
+{
+  "name": "AI 模拟面试官",
+  "short_name": "模拟面试",
+  "description": "完全免费本地模式的简历语音模拟面试工具。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f5f1",
+  "theme_color": "#176b5d"
+}

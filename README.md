@@ -47,6 +47,25 @@ http://localhost:4317
 INVITED_USERS=friend1@example.com,friend2@example.com
 ```
 
+## GitHub Pages 版本
+
+`docs/` 目录是可直接发布到 GitHub Pages 的静态版。它不依赖 Node 后端，数据保存在浏览器本地：
+
+```text
+登录：浏览器 localStorage
+历史报告：浏览器 localStorage
+PDF 解析：浏览器 PDF.js
+扫描版 OCR：浏览器 Tesseract.js
+语音识别：浏览器 Web Speech API
+出题/追问/评分：浏览器本地规则
+```
+
+发布地址：
+
+```text
+https://eliahthecreator.github.io/resume-interview-bot/
+```
+
 ## 免费模式说明
 
 这个版本不需要模型 API key，不会调用付费 API。各环节的实现方式是：

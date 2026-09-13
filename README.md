@@ -66,6 +66,8 @@ PDF 解析：浏览器 PDF.js
 https://eliahthecreator.github.io/resume-interview-bot/
 ```
 
+GitHub Pages 静态版没有真正后端登录；邮箱只用于区分本地历史记录，邀请码可不填。
+
 ## 免费模式说明
 
 这个版本不需要模型 API key，不会调用付费 API。各环节的实现方式是：

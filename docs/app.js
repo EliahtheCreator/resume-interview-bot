@@ -1,4 +1,3 @@
-const INVITE_CODE = "demo2026";
 const STORAGE = {
   token: "rib_pages_token",
   email: "rib_pages_email",
@@ -178,9 +177,7 @@ function bindEvents() {
 function login(event) {
   event.preventDefault();
   const email = els.email.value.trim().toLowerCase();
-  const inviteCode = els.inviteCode.value.trim();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("请输入有效邮箱。");
-  if (inviteCode !== INVITE_CODE) return toast("邀请码不正确。");
   state.token = crypto.randomUUID();
   state.email = email;
   localStorage.setItem(STORAGE.token, state.token);

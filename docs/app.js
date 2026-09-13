@@ -1,6 +1,4 @@
 const STORAGE = {
-  token: "rib_pages_token",
-  email: "rib_pages_email",
   history: "rib_pages_history"
 };
 
@@ -101,8 +99,6 @@ const resumeQuestionTemplates = {
 };
 
 const state = {
-  token: localStorage.getItem(STORAGE.token) || "",
-  email: localStorage.getItem(STORAGE.email) || "",
   selectedJobId: "",
   resumeFile: null,
   interview: null,
@@ -118,16 +114,11 @@ const state = {
 };
 
 const els = {
-  userbar: $("#userbar"),
   modeBadge: $("#mode-badge"),
-  loginView: $("#login-view"),
   setupView: $("#setup-view"),
   resumePreviewView: $("#resume-preview-view"),
   interviewView: $("#interview-view"),
   reportView: $("#report-view"),
-  loginForm: $("#login-form"),
-  email: $("#email"),
-  inviteCode: $("#invite-code"),
   jobGrid: $("#job-grid"),
   resumeFile: $("#resume-file"),
   fileLabel: $("#file-label"),
@@ -156,14 +147,10 @@ function boot() {
   registerServiceWorker();
   bindEvents();
   els.modeBadge.textContent = "GitHub Pages 静态版";
-  state.token ? showSetup() : showView("login");
+  showSetup();
 }
 
 function bindEvents() {
-  els.loginForm.addEventListener("submit", login);
-  els.userbar.addEventListener("click", (event) => {
-    if (event.target.closest("[data-logout]")) logout();
-  });
   els.resumeFile.addEventListener("change", onResumeSelected);
   els.startBtn.addEventListener("click", parseResumeAndPreview);
   els.confirmInterviewBtn.addEventListener("click", () => {
@@ -177,53 +164,10 @@ function bindEvents() {
   els.exportReportBtn.addEventListener("click", exportCurrentReport);
 }
 
-function login(event) {
-  event.preventDefault();
-  const email = els.email.value.trim().toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast("请输入有效邮箱。");
-  state.token = crypto.randomUUID();
-  state.email = email;
-  localStorage.setItem(STORAGE.token, state.token);
-  localStorage.setItem(STORAGE.email, email);
-  showSetup();
-}
-
-function logout() {
-  if (state.recognition) {
-    state.submitAfterRecognitionStop = false;
-    state.isRecording = false;
-    clearInterval(state.timer);
-    clearTimeout(state.submitFallbackTimer);
-    try {
-      state.recognition.stop();
-    } catch {}
-  }
-  els.recordBtn.disabled = false;
-  els.recordBtn.textContent = "开始录音";
-  els.wave.classList.remove("active");
-  state.token = "";
-  state.email = "";
-  state.selectedJobId = "";
-  state.resumeFile = null;
-  state.interview = null;
-  localStorage.removeItem(STORAGE.token);
-  localStorage.removeItem(STORAGE.email);
-  els.email.value = "";
-  els.inviteCode.value = "";
-  els.fileLabel.textContent = "选择一份可复制文字的 PDF 简历";
-  showView("login");
-  toast("已退出，可以换邮箱登录。");
-}
-
 function showSetup() {
   showView("setup");
-  renderUserbar();
   renderJobs();
   renderHistory(getHistory());
-}
-
-function renderUserbar() {
-  els.userbar.innerHTML = state.email ? `<div class="account-chip"><span>${escapeHtml(state.email)}</span><button type="button" data-logout>换邮箱</button></div>` : "";
 }
 
 function renderJobs() {
@@ -334,7 +278,6 @@ async function extractPdfTextWithOcr(pdf) {
 function createInterview(job, resumeName, resumeText, resumeAnalysis) {
   return {
     id: crypto.randomUUID(),
-    email: state.email,
     jobId: job.id,
     jobTitle: job.title,
     resumeName,
@@ -657,7 +600,7 @@ function markdownList(title, items) {
 }
 
 function getHistory() {
-  return getAllHistory().filter((item) => item.status === "complete" && item.report && item.email === state.email);
+  return getAllHistory().filter((item) => item.status === "complete" && item.report);
 }
 
 function saveHistory(interview) {
@@ -802,7 +745,7 @@ function buildInterviewerConcerns({ missingMetrics, weakOwnership, weakTradeoff,
 }
 
 function showView(name) {
-  const views = { login: els.loginView, setup: els.setupView, resumePreview: els.resumePreviewView, interview: els.interviewView, report: els.reportView };
+  const views = { setup: els.setupView, resumePreview: els.resumePreviewView, interview: els.interviewView, report: els.reportView };
   Object.values(views).forEach((view) => view.classList.remove("active"));
   views[name].classList.add("active");
 }

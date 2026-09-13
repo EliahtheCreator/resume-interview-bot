@@ -14,7 +14,7 @@
 
 ## 已实现
 
-- 邮箱 + 邀请码登录
+- GitHub Pages 发布版打开即可使用，无需登录
 - 不限制练习次数
 - PDF 简历上传与文本提取
 - 扫描版 PDF 的本地 OCR 兜底
@@ -49,10 +49,9 @@ INVITED_USERS=friend1@example.com,friend2@example.com
 
 ## GitHub Pages 版本
 
-`docs/` 目录是可直接发布到 GitHub Pages 的静态版。它不依赖 Node 后端，数据保存在浏览器本地：
+`docs/` 目录是可直接发布到 GitHub Pages 的静态版。它不依赖 Node 后端，打开网页后直接进入练习，数据保存在浏览器本地：
 
 ```text
-登录：浏览器 localStorage
 历史报告：浏览器 localStorage
 PDF 解析：浏览器 PDF.js
 扫描版 OCR：浏览器 Tesseract.js
@@ -66,7 +65,7 @@ PDF 解析：浏览器 PDF.js
 https://eliahthecreator.github.io/resume-interview-bot/
 ```
 
-GitHub Pages 静态版没有真正后端登录；邮箱只用于区分本地历史记录，邀请码可不填。
+GitHub Pages 静态版没有登录界面，也不做账号鉴权。
 
 ## 免费模式说明
 

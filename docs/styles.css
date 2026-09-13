@@ -184,25 +184,6 @@ input {
   text-align: right;
 }
 
-.account-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.account-chip button {
-  min-height: 30px;
-  border: 1px solid var(--line);
-  background: #fff;
-  color: var(--accent);
-  padding: 0 10px;
-}
-
-.account-chip button:hover {
-  border-color: rgba(23, 107, 93, 0.4);
-  background: rgba(23, 107, 93, 0.08);
-}
-
 .mode-badge {
   display: inline-flex;
   align-items: center;

@@ -161,6 +161,9 @@ function boot() {
 
 function bindEvents() {
   els.loginForm.addEventListener("submit", login);
+  els.userbar.addEventListener("click", (event) => {
+    if (event.target.closest("[data-logout]")) logout();
+  });
   els.resumeFile.addEventListener("change", onResumeSelected);
   els.startBtn.addEventListener("click", parseResumeAndPreview);
   els.confirmInterviewBtn.addEventListener("click", () => {
@@ -185,6 +188,33 @@ function login(event) {
   showSetup();
 }
 
+function logout() {
+  if (state.recognition) {
+    state.submitAfterRecognitionStop = false;
+    state.isRecording = false;
+    clearInterval(state.timer);
+    clearTimeout(state.submitFallbackTimer);
+    try {
+      state.recognition.stop();
+    } catch {}
+  }
+  els.recordBtn.disabled = false;
+  els.recordBtn.textContent = "开始录音";
+  els.wave.classList.remove("active");
+  state.token = "";
+  state.email = "";
+  state.selectedJobId = "";
+  state.resumeFile = null;
+  state.interview = null;
+  localStorage.removeItem(STORAGE.token);
+  localStorage.removeItem(STORAGE.email);
+  els.email.value = "";
+  els.inviteCode.value = "";
+  els.fileLabel.textContent = "选择一份可复制文字的 PDF 简历";
+  showView("login");
+  toast("已退出，可以换邮箱登录。");
+}
+
 function showSetup() {
   showView("setup");
   renderUserbar();
@@ -193,7 +223,7 @@ function showSetup() {
 }
 
 function renderUserbar() {
-  els.userbar.innerHTML = state.email ? `<span>${escapeHtml(state.email)}</span>` : "";
+  els.userbar.innerHTML = state.email ? `<div class="account-chip"><span>${escapeHtml(state.email)}</span><button type="button" data-logout>换邮箱</button></div>` : "";
 }
 
 function renderJobs() {
@@ -627,13 +657,22 @@ function markdownList(title, items) {
 }
 
 function getHistory() {
-  return JSON.parse(localStorage.getItem(STORAGE.history) || "[]").filter((item) => item.status === "complete" && item.report);
+  return getAllHistory().filter((item) => item.status === "complete" && item.report && item.email === state.email);
 }
 
 function saveHistory(interview) {
-  const history = getHistory();
+  const history = getAllHistory().filter((item) => item.id !== interview.id);
   history.unshift(interview);
-  localStorage.setItem(STORAGE.history, JSON.stringify(history.slice(0, 50)));
+  localStorage.setItem(STORAGE.history, JSON.stringify(history.filter((item) => item.status === "complete" && item.report).slice(0, 100)));
+}
+
+function getAllHistory() {
+  try {
+    const history = JSON.parse(localStorage.getItem(STORAGE.history) || "[]");
+    return Array.isArray(history) ? history : [];
+  } catch {
+    return [];
+  }
 }
 
 function startTimer() {

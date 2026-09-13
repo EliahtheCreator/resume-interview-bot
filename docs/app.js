@@ -197,8 +197,11 @@ function renderJobs() {
 function onResumeSelected() {
   const file = els.resumeFile.files[0];
   if (!file) return;
-  if (file.type !== "application/pdf") {
+  if (!isPdfFile(file)) {
     els.resumeFile.value = "";
+    state.resumeFile = null;
+    els.fileLabel.textContent = "选择一份可复制文字的 PDF 简历";
+    updateStartButton();
     return toast("第一版只支持 PDF 简历。");
   }
   state.resumeFile = file;
@@ -207,14 +210,16 @@ function onResumeSelected() {
 }
 
 function updateStartButton() {
-  els.startBtn.disabled = !(state.selectedJobId && state.resumeFile);
+  els.startBtn.disabled = false;
 }
 
 async function parseResumeAndPreview() {
+  const job = jobs.find((item) => item.id === state.selectedJobId);
+  if (!job) return toast("请先选择岗位：AI 产品经理、视频生成算法或招聘 HR。");
+  if (!state.resumeFile) return toast("请先上传一份 PDF 简历。");
   try {
     els.startBtn.disabled = true;
     els.startBtn.textContent = "正在解析简历...";
-    const job = jobs.find((item) => item.id === state.selectedJobId);
     const resumeText = await extractResumeText(state.resumeFile);
     if (resumeText.length < 80) throw new Error("没有识别到足够简历文字。请换一份更清晰的 PDF。");
     const resumeAnalysis = analyzeResume(job, resumeText);
@@ -228,6 +233,10 @@ async function parseResumeAndPreview() {
     els.startBtn.textContent = "解析简历";
     updateStartButton();
   }
+}
+
+function isPdfFile(file) {
+  return file.type === "application/pdf" || /\.pdf$/i.test(file.name || "");
 }
 
 async function extractResumeText(file) {

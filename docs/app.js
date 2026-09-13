@@ -2,6 +2,9 @@ const STORAGE = {
   history: "rib_pages_history"
 };
 
+const PDFJS_SCRIPT_URL = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js";
+const PDFJS_WORKER_URL = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js";
+
 const jobs = [
   { id: "ai_pm", title: "AI 产品经理", category: "产品岗", open: true, description: "考察 AI 产品判断、需求拆解、评估指标、跨团队推进和商业化意识。" },
   { id: "video_generation_algorithm", title: "视频生成算法", category: "技术类", open: true, description: "考察扩散模型、视频生成、评测方法、工程落地和研究判断。" },
@@ -228,10 +231,9 @@ async function parseResumeAndPreview() {
 }
 
 async function extractResumeText(file) {
-  const pdfjsLib = await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/build/pdf.min.mjs");
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/build/pdf.worker.min.mjs";
+  const pdfjsLib = await loadPdfJs();
   const buffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+  const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buffer), disableFontFace: true }).promise;
   const pageTexts = [];
   for (let i = 1; i <= pdf.numPages; i += 1) {
     const page = await pdf.getPage(i);
@@ -242,6 +244,14 @@ async function extractResumeText(file) {
   if (text.length >= 80) return text;
   toast("这份 PDF 像扫描件，正在启动 OCR。首次加载会慢一些。");
   return await extractPdfTextWithOcr(pdf);
+}
+
+async function loadPdfJs() {
+  if (window.pdfjsLib?.getDocument) return window.pdfjsLib;
+  await loadScript(PDFJS_SCRIPT_URL);
+  if (!window.pdfjsLib?.getDocument) throw new Error("PDF 解析组件加载失败，请刷新页面后重试。");
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
+  return window.pdfjsLib;
 }
 
 async function extractPdfTextWithOcr(pdf) {
@@ -277,7 +287,7 @@ async function extractPdfTextWithOcr(pdf) {
 
 function createInterview(job, resumeName, resumeText, resumeAnalysis) {
   return {
-    id: crypto.randomUUID(),
+    id: createId(),
     jobId: job.id,
     jobTitle: job.title,
     resumeName,
@@ -451,7 +461,7 @@ function advanceInterview(turn) {
 }
 
 function addTurn(kind, mainNumber, question, parentTurnId = null) {
-  const turn = { id: crypto.randomUUID(), kind, mainNumber, parentTurnId, question, answer: "", createdAt: new Date().toISOString() };
+  const turn = { id: createId(), kind, mainNumber, parentTurnId, question, answer: "", createdAt: new Date().toISOString() };
   state.interview.turns.push(turn);
   state.interview.currentTurnId = turn.id;
 }
@@ -657,7 +667,12 @@ function pickResumeSnippets(text, keywords) {
 }
 
 function splitResumeSentences(text) {
-  return String(text || "").replace(/\s+/g, " ").split(/(?<=[。！？!?])|[\n\r]+| {2,}|[;；]/).map((item) => item.trim()).filter(Boolean);
+  return String(text || "")
+    .replace(/\s+/g, " ")
+    .replace(/([。！？!?])/g, "$1\n")
+    .split(/[\n\r]+| {2,}|[;；]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 function scoreResumeSentence(sentence, keywords) {
@@ -768,6 +783,19 @@ function getRubric(jobId) {
 
 function countKeywordHits(text, keywords) {
   return keywords.filter((keyword) => text.includes(keyword)).length;
+}
+
+function createId() {
+  if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+  if (window.crypto?.getRandomValues) {
+    const bytes = new Uint8Array(16);
+    window.crypto.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+  }
+  return `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
 function clamp(value, min, max) {

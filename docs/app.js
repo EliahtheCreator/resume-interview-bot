@@ -101,8 +101,147 @@ const resumeQuestionTemplates = {
   ]
 };
 
+const interviewLibrary = {
+  ai_pm: {
+    title: "AI 产品经理",
+    subtitle: "重点考察：用户问题判断、AI 能力边界、指标设计、跨团队推进和上线取舍。",
+    sections: [
+      {
+        title: "高频问题",
+        items: [
+          "讲一个你做过的 AI 产品项目：用户是谁，痛点是什么，为什么需要 AI 而不是普通规则或流程优化？",
+          "如果模型效果不稳定，但业务希望尽快上线，你会如何设计灰度、兜底和评估方案？",
+          "一个 AI 功能上线后，你会同时看哪些产品指标、模型指标和风险指标？",
+          "你如何判断一个需求是真需求，还是用户对 AI 的新鲜感？",
+          "当研发、算法和业务对优先级判断不一致时，你会怎么推进决策？"
+        ]
+      },
+      {
+        title: "回答框架",
+        items: [
+          "问题定义：用户是谁，具体场景是什么，原流程哪里低效或不可规模化。",
+          "方案拆解：输入、模型能力、产品交互、人工兜底、异常处理分别怎么设计。",
+          "指标设计：不要只说准确率，要补充转化、留存、完成率、人工节省、延迟、成本和安全。",
+          "上线策略：先小流量验证，再看 failure case，最后决定扩大范围或回滚。",
+          "取舍表达：讲清为什么牺牲某项体验、速度、成本或效果，以及如何控制风险。"
+        ]
+      },
+      {
+        title: "强回答信号",
+        items: [
+          "能把用户价值和模型能力连接起来，而不是只讲功能清单。",
+          "知道 AI 产品需要兜底、评估、灰度和持续迭代。",
+          "能讲清自己在需求、指标、协同、验收中的个人贡献。",
+          "会用数据证明结果，例如效率提升、转化改善、人工成本下降、投诉减少。"
+        ]
+      },
+      {
+        title: "常见扣分点",
+        items: [
+          "只说“接入大模型”但讲不清用户问题和业务结果。",
+          "只看模型准确率，不看真实用户体验、成本、延迟和安全风险。",
+          "项目描述里全是“我们团队”，个人负责边界不清。",
+          "无法讲出失败案例、迭代过程或具体取舍。"
+        ]
+      }
+    ],
+    checklist: ["准备 2 个 AI 产品项目", "每个项目补 3 个指标", "准备 1 个上线取舍案例", "准备 1 个模型效果不稳定的处理案例"]
+  },
+  video_generation_algorithm: {
+    title: "视频生成算法",
+    subtitle: "重点考察：扩散/生成模型基础、视频时序问题、评测意识、实验定位和工程落地判断。",
+    sections: [
+      {
+        title: "高频问题",
+        items: [
+          "介绍一个视频生成或多模态生成项目：数据、模型、训练、评测和你的贡献分别是什么？",
+          "视频生成相比图像生成，为什么更容易出现闪烁、身份漂移、运动不自然或时序不一致？",
+          "如果生成视频质量下降，你会从数据、训练、采样、模型结构和评测哪几层定位？",
+          "你如何评价视频生成模型质量？主观评测之外还会看什么？",
+          "如果要把模型做成产品，质量、速度、显存、成本和稳定性之间怎么取舍？"
+        ]
+      },
+      {
+        title: "回答框架",
+        items: [
+          "项目结构：任务目标、数据规模、模型路线、训练资源、评测方式和最终效果。",
+          "问题定位：先描述 failure case，再拆成数据分布、时序建模、条件控制、采样策略或后处理问题。",
+          "实验表达：说清对照组、变量、指标、观察现象和结论，避免只说“调参”。",
+          "评测维度：画面质量、时序一致性、主体一致性、运动自然度、文本对齐、用户偏好和推理成本。",
+          "落地意识：补充延迟、显存、吞吐、稳定性、内容安全和线上监控。"
+        ]
+      },
+      {
+        title: "强回答信号",
+        items: [
+          "能讲清具体模型或实验，而不是泛泛说“做过 AIGC”。",
+          "遇到问题时能从 failure case 反推原因和实验设计。",
+          "知道视频生成评测不能只靠单一指标，需要主观与客观结合。",
+          "能把研究效果和实际部署成本联系起来。"
+        ]
+      },
+      {
+        title: "常见扣分点",
+        items: [
+          "只会说扩散模型、Transformer、LoRA 等关键词，但讲不出实验细节。",
+          "无法解释时序一致性、主体漂移、闪烁等视频特有问题。",
+          "没有指标和对照实验，结论听起来像主观感受。",
+          "忽略推理速度、显存、稳定性和产品落地限制。"
+        ]
+      }
+    ],
+    checklist: ["准备 1 个最熟实验", "列 3 个 failure case", "补齐评测指标", "准备质量/速度/成本取舍案例"]
+  },
+  recruiting_hr: {
+    title: "招聘 HR",
+    subtitle: "重点考察：岗位理解、人才画像、候选人判断、招聘漏斗、业务方协同和风险识别。",
+    sections: [
+      {
+        title: "高频问题",
+        items: [
+          "讲一个你负责过的招聘岗位：业务需求是什么，你如何转化成人才画像和筛选标准？",
+          "候选人简历匹配但面试表现一般，你会如何判断是否继续推进？",
+          "如果业务方频繁变化 JD 或评价标准，你会如何对齐并推动决策？",
+          "你如何提升招聘漏斗转化率？请讲具体数据和动作。",
+          "你识别过哪些候选人风险信号？如何向业务方反馈？"
+        ]
+      },
+      {
+        title: "回答框架",
+        items: [
+          "岗位理解：业务目标、团队阶段、核心能力、硬性条件和软性画像。",
+          "筛选证据：简历信号、项目经历、稳定性、动机、沟通质量和薪资/到岗匹配。",
+          "漏斗数据：简历通过率、面试到场率、面试通过率、offer 接受率、招聘周期。",
+          "业务协同：用校准会、样例候选人、面试反馈表和复盘机制减少标准漂移。",
+          "风险表达：不要只说候选人“不合适”，要说证据、影响和可验证问题。"
+        ]
+      },
+      {
+        title: "强回答信号",
+        items: [
+          "能把 JD 翻译成可执行的人才画像，而不是只做简历转发。",
+          "会用招聘漏斗数据定位问题，例如渠道、筛选、面试、offer 哪一环掉点。",
+          "能平衡业务速度、候选人质量和候选人体验。",
+          "能识别入职后风险，比如稳定性、动机不匹配、能力断层或预期偏差。"
+        ]
+      },
+      {
+        title: "常见扣分点",
+        items: [
+          "只强调沟通协调，讲不清岗位和候选人判断标准。",
+          "没有数据意识，不知道漏斗各环节如何衡量。",
+          "业务方变标准时只被动执行，缺少校准和推进方法。",
+          "风险判断停留在感觉，没有简历、面试或沟通证据。"
+        ]
+      }
+    ],
+    checklist: ["准备 1 个完整招聘案例", "补充漏斗数据", "准备业务方标准变化案例", "准备候选人风险识别案例"]
+  }
+};
+
 const state = {
   selectedJobId: "",
+  libraryJobId: "ai_pm",
   resumeFile: null,
   interview: null,
   recognition: null,
@@ -118,6 +257,8 @@ const state = {
 
 const els = {
   modeBadge: $("#mode-badge"),
+  libraryTabs: $("#library-tabs"),
+  libraryContent: $("#library-content"),
   setupView: $("#setup-view"),
   resumePreviewView: $("#resume-preview-view"),
   interviewView: $("#interview-view"),
@@ -169,8 +310,36 @@ function bindEvents() {
 
 function showSetup() {
   showView("setup");
+  renderLibrary();
   renderJobs();
   renderHistory(getHistory());
+}
+
+function renderLibrary() {
+  const openJobs = jobs.filter((job) => job.open);
+  els.libraryTabs.innerHTML = openJobs.map((job) => `<button type="button" class="${job.id === state.libraryJobId ? "active" : ""}" data-library-job-id="${job.id}">${escapeHtml(job.title)}</button>`).join("");
+  els.libraryTabs.querySelectorAll("[data-library-job-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.libraryJobId = button.dataset.libraryJobId;
+      renderLibrary();
+    });
+  });
+
+  const item = interviewLibrary[state.libraryJobId] || interviewLibrary.ai_pm;
+  els.libraryContent.innerHTML = `
+    <div class="library-intro">
+      <div>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p class="muted">${escapeHtml(item.subtitle)}</p>
+      </div>
+      <div class="checklist-box">
+        <p class="eyebrow">Before Interview</p>
+        <ul>${item.checklist.map((entry) => `<li>${escapeHtml(entry)}</li>`).join("")}</ul>
+      </div>
+    </div>
+    <div class="library-grid">
+      ${item.sections.map((section) => `<article class="library-card"><h3>${escapeHtml(section.title)}</h3><ul>${section.items.map((entry) => `<li>${escapeHtml(entry)}</li>`).join("")}</ul></article>`).join("")}
+    </div>`;
 }
 
 function renderJobs() {

@@ -138,6 +138,75 @@ h3 {
   align-items: start;
 }
 
+.library-panel {
+  margin-bottom: 18px;
+}
+
+.library-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.library-tabs button {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--muted);
+  padding: 0 12px;
+}
+
+.library-tabs button.active,
+.library-tabs button:hover {
+  border-color: rgba(23, 107, 93, 0.36);
+  background: rgba(23, 107, 93, 0.08);
+  color: var(--accent);
+}
+
+.library-content {
+  display: grid;
+  gap: 16px;
+}
+
+.library-intro {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 360px);
+  gap: 16px;
+  align-items: start;
+}
+
+.library-intro h3 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.checklist-box,
+.library-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfaf7;
+  padding: 16px;
+}
+
+.checklist-box ul,
+.library-card ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.library-card h3 {
+  margin-bottom: 8px;
+}
+
 .interview-layout {
   display: grid;
   grid-template-columns: 1fr 360px;
@@ -492,7 +561,9 @@ input {
 @media (max-width: 960px) {
   .layout,
   .interview-layout,
-  .report-grid {
+  .report-grid,
+  .library-intro,
+  .library-grid {
     grid-template-columns: 1fr;
   }
 

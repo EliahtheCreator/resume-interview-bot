@@ -104,6 +104,7 @@ h3 {
 
 .role-tabs {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 18px;
 }
@@ -354,6 +355,7 @@ h3 {
   padding: 16px 16px 16px 34px;
 }
 
+.resume-grid,
 .risk-grid,
 .follow-grid {
   display: grid;
@@ -361,6 +363,7 @@ h3 {
   gap: 12px;
 }
 
+.resume-card,
 .risk-card,
 .follow-card,
 .framework-card,
@@ -380,6 +383,17 @@ h3 {
 .risk-card h3 {
   color: var(--ink);
   margin-bottom: 8px;
+}
+
+.resume-card {
+  padding: 16px;
+}
+
+.resume-card ul {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 10px 0 0;
+  padding-left: 18px;
 }
 
 .follow-card {
@@ -453,8 +467,10 @@ h3 {
 @media (max-width: 900px) {
   .topbar,
   .profile-grid,
+  .role-tabs,
   .category-roles,
   .knowledge-grid,
+  .resume-grid,
   .risk-grid,
   .follow-grid,
   .answer-split,

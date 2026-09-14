@@ -1,28 +1,1661 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" translate="no">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="google" content="notranslate" />
     <title>AI 面试资料库</title>
     <meta name="theme-color" content="#050608" />
     <link rel="manifest" href="manifest.webmanifest" />
-    <link rel="stylesheet" href="styles.css?v=library-v14" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css?v=library-v15" />
+    <style>
+
+    :root {
+      color-scheme: dark;
+      --loop-progress: 0;
+      --scan-opacity: 0;
+      --intro-visibility: 0;
+      --beam-opacity: 0;
+      --beam-width: 0.16;
+      --beam-blur: 32px;
+      --glitch-duration: 360ms;
+      --glitch-damage: 1;
+      --title-visibility: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+      overflow-x: hidden;
+      background: #000;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 150svh;
+    }
+
+    .stage {
+      position: relative;
+      height: 50svh;
+      min-height: 50svh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+      background: #000;
+    }
+
+    .ambient {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.11), transparent 13%),
+        radial-gradient(circle at 50% 74%, rgba(255, 255, 255, 0.08), transparent 28%),
+        #000;
+      opacity: var(--intro-visibility);
+    }
+
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: -25%;
+      z-index: -3;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 72px 72px, 72px 72px;
+      transform: perspective(900px) rotateX(58deg) translateY(18%);
+      transform-origin: center bottom;
+      opacity: calc(var(--intro-visibility) * 0.38);
+      animation: grid-drift 20s linear infinite;
+    }
+
+    .stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, calc(var(--scan-opacity) * 0.11)) 0,
+          rgba(255, 255, 255, calc(var(--scan-opacity) * 0.11)) 1px,
+          transparent 1px,
+          transparent 6px
+        ),
+        radial-gradient(circle at 50% 50%, transparent 0, rgba(0, 0, 0, 0.4) 73%, rgba(0, 0, 0, 0.9) 100%);
+      mix-blend-mode: screen;
+      opacity: calc(var(--intro-visibility) * 0.7);
+    }
+
+    .blackout {
+      position: absolute;
+      inset: 0;
+      z-index: 7;
+      background: #000;
+      opacity: 0;
+      transition: opacity 180ms linear;
+    }
+
+    .beam {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: min(96vw, 1120px);
+      height: min(64vh, 620px);
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.18) 23%, transparent 64%),
+        linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.12) 49%, rgba(255, 255, 255, 0.32) 50%, rgba(255, 255, 255, 0.12) 51%, transparent 100%);
+      filter: blur(24px);
+      opacity: 0;
+      transform: translate(-50%, -47%) scaleX(0.28) scaleY(0.9);
+      transition: opacity 220ms ease, transform 360ms ease, filter 360ms ease;
+    }
+
+    .beam.is-live {
+      opacity: var(--beam-opacity, 0.88);
+      transform: translate(-50%, -47%) scaleX(var(--beam-width, 1)) scaleY(1);
+      filter: blur(var(--beam-blur, 22px));
+    }
+
+    .beam.final {
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.14) 20%, transparent 65%),
+        linear-gradient(90deg, transparent 0, rgba(255, 255, 255, 0.1) 48%, rgba(255, 255, 255, 0.44) 50%, rgba(255, 255, 255, 0.1) 52%, transparent 100%);
+    }
+
+    .logo-shell {
+      position: relative;
+      z-index: 3;
+      width: min(74vw, 500px);
+      height: clamp(112px, 18vh, 168px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(0) scale(1);
+      filter: brightness(1);
+      transition:
+        opacity 120ms linear,
+        transform 180ms ease;
+      will-change: opacity, transform, filter;
+    }
+
+    .logo-shell::before,
+    .logo-shell::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      width: 88%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.82), transparent);
+      transform: translateX(-50%) scaleX(var(--line-scale, 0));
+      opacity: var(--line-opacity, 0);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.56);
+      transition: transform 220ms ease, opacity 180ms ease;
+    }
+
+    .logo-shell::before {
+      top: -18px;
+    }
+
+    .logo-shell::after {
+      bottom: -18px;
+    }
+
+    .logo-shell.is-visible {
+      opacity: var(--logo-opacity, 1);
+      transform: translateY(0) scale(var(--logo-scale, 1));
+      filter: brightness(var(--logo-brightness, 1));
+      --line-scale: 1;
+      --line-opacity: 0.72;
+    }
+
+    .logo-shell.is-glitching {
+      filter:
+        brightness(1.26)
+        contrast(1.18)
+        drop-shadow(10px 0 0 rgba(0, 246, 255, 0.34))
+        drop-shadow(-9px 0 0 rgba(255, 0, 102, 0.28));
+    }
+
+    .logo-shell.is-glitching .logo-combo {
+      animation: logo-glitch-jitter var(--glitch-duration) steps(2, end) both;
+    }
+
+    .logo-shell.is-vast-shell {
+      transition:
+        opacity 20ms linear,
+        transform 90ms ease;
+    }
+
+    .logo {
+      width: auto;
+      height: clamp(64px, 9.8vh, 86px);
+      max-width: min(74vw, 430px);
+      max-height: 82%;
+      object-fit: contain;
+      object-position: center;
+      transform: translateZ(0);
+      display: block;
+      image-rendering: auto;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .logo-combo {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(12px, 2.4vw, 24px);
+    }
+
+    .logo-wordmark {
+      display: none;
+      width: auto;
+      height: clamp(74px, 11vh, 104px);
+      max-width: min(56vw, 410px);
+      max-height: 98%;
+      object-fit: contain;
+      object-position: center;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .logo-shell.has-wordmark {
+      width: min(84vw, 650px);
+    }
+
+    .logo-shell.has-wordmark .logo {
+      height: clamp(64px, 9.8vh, 86px);
+      max-width: min(20vw, 108px);
+      flex: 0 0 auto;
+    }
+
+    .logo-shell.has-wordmark .logo-wordmark {
+      display: block;
+    }
+
+    .logo.is-white-card {
+      width: auto;
+      height: clamp(64px, 9.8vh, 86px);
+      max-width: min(74vw, 430px);
+      max-height: 82%;
+    }
+
+    .logo.is-large-logo {
+      height: clamp(82px, 12vh, 108px);
+      max-width: min(78vw, 470px);
+      max-height: 96%;
+    }
+
+    .logo.is-small-logo {
+      height: clamp(52px, 7.6vh, 68px);
+      max-width: min(68vw, 380px);
+      max-height: 76%;
+    }
+
+    .logo.is-tall-logo {
+      height: clamp(128px, 18vh, 150px);
+      max-width: min(74vw, 430px);
+      max-height: 100%;
+    }
+
+    .logo.is-extra-tall-logo {
+      height: clamp(156px, 21.5vh, 172px);
+      max-width: min(74vw, 430px);
+      max-height: 118%;
+    }
+
+    .logo.is-wide-logo {
+      height: clamp(50px, 7.4vh, 64px);
+      max-width: min(68vw, 360px);
+      max-height: 72%;
+    }
+
+    .logo.is-google-logo {
+      height: clamp(120px, 16.4vh, 138px);
+      max-width: min(70vw, 390px);
+      max-height: 98%;
+      transform: translateX(10px) translateZ(0);
+    }
+
+    .logo.is-insta-logo {
+      height: clamp(40px, 5.8vh, 52px);
+      max-width: min(64vw, 300px);
+      max-height: 62%;
+    }
+
+    .logo.is-kunlun-logo {
+      height: clamp(112px, 16vh, 134px);
+      max-width: min(72vw, 380px);
+      max-height: 96%;
+    }
+
+    .logo.is-vast-logo {
+      height: clamp(52px, 7.4vh, 66px);
+      max-width: min(72vw, 440px);
+      max-height: 72%;
+    }
+
+    .logo.is-ant-logo {
+      height: clamp(152px, 20.8vh, 176px);
+      max-width: min(78vw, 470px);
+      max-height: 112%;
+      transform: translate(10px, 36px) translateZ(0);
+    }
+
+    .logo.is-dji-logo {
+      height: clamp(112px, 15.8vh, 132px);
+      max-width: min(70vw, 390px);
+      max-height: 90%;
+      transform: translate(8px, 7px) translateZ(0);
+    }
+
+    .logo.is-zhipu-logo {
+      height: clamp(68px, 9.8vh, 88px);
+      max-width: min(72vw, 410px);
+      max-height: 82%;
+    }
+
+    .logo.is-amazon-logo {
+      transform: translateX(10px) translateZ(0);
+    }
+
+    .logo-shell.is-kimi-wordmark {
+      width: min(86vw, 640px);
+    }
+
+    .logo-shell.is-kimi-wordmark .logo-wordmark {
+      height: clamp(42px, 6.6vh, 56px);
+      max-width: min(56vw, 430px);
+      max-height: 66%;
+    }
+
+    .hud {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: calc(var(--intro-visibility) * 0.54);
+    }
+
+    .hud i {
+      position: absolute;
+      display: block;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.52);
+    }
+
+    .hud i:nth-child(1) {
+      left: 9vw;
+      top: 16vh;
+      width: 12vw;
+      height: 1px;
+    }
+
+    .hud i:nth-child(2) {
+      right: 8vw;
+      top: 24vh;
+      width: 1px;
+      height: 20vh;
+    }
+
+    .hud i:nth-child(3) {
+      left: 14vw;
+      bottom: 19vh;
+      width: 1px;
+      height: 16vh;
+    }
+
+    .hud i:nth-child(4) {
+      right: 12vw;
+      bottom: 17vh;
+      width: 14vw;
+      height: 1px;
+    }
+
+    .final-copy {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      padding: 8vw;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(12px);
+      filter: none;
+      transition: opacity 30ms linear, transform 80ms ease;
+    }
+
+    .final-copy.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: none;
+    }
+
+    .final-copy.is-glitching {
+      animation: final-copy-glitch var(--glitch-duration) steps(2, end) both;
+      filter:
+        brightness(1.28)
+        drop-shadow(11px 0 0 rgba(0, 246, 255, 0.34))
+        drop-shadow(-10px 0 0 rgba(255, 0, 102, 0.28));
+    }
+
+    .final-copy span {
+      position: relative;
+      display: block;
+      max-width: min(1120px, 92vw);
+      font-family: "Orbitron", "Eurostile", "Avenir Next", "DIN Alternate", Arial, Helvetica, sans-serif;
+      font-size: 3.9rem;
+      line-height: 1;
+      letter-spacing: 0;
+      font-weight: 800;
+      text-transform: none;
+      white-space: nowrap;
+      color: rgba(255, 255, 255, 0.96);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+      text-shadow:
+        0 0 3px rgba(255, 255, 255, 0.7),
+        0 0 24px rgba(255, 255, 255, 0.42),
+        0 0 72px rgba(255, 255, 255, 0.18);
+    }
+
+    .final-copy.is-glitching span::before,
+    .final-copy.is-glitching span::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: calc(var(--glitch-damage) * 0.74);
+      mix-blend-mode: screen;
+    }
+
+    .final-copy.is-glitching span::before {
+      color: rgba(0, 246, 255, 0.78);
+      transform: translateX(14px);
+      clip-path: polygon(0 8%, 100% 5%, 100% 24%, 0 29%, 0 58%, 100% 53%, 100% 66%, 0 70%);
+    }
+
+    .final-copy.is-glitching span::after {
+      color: rgba(255, 0, 102, 0.7);
+      transform: translateX(-12px);
+      clip-path: polygon(0 31%, 100% 26%, 100% 42%, 0 46%, 0 73%, 100% 70%, 100% 87%, 0 91%);
+    }
+
+    .grain {
+      position: absolute;
+      inset: -40%;
+      z-index: 9;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px);
+      background-size: 17px 17px, 29px 29px;
+      opacity: calc(var(--intro-visibility) * 0.12);
+      mix-blend-mode: screen;
+      animation: grain-shift 0.8s steps(2, end) infinite;
+    }
+
+    .glitch-field {
+      position: absolute;
+      inset: 0;
+      z-index: 12;
+      pointer-events: none;
+      opacity: 0;
+      overflow: hidden;
+      mix-blend-mode: screen;
+    }
+
+    .page-glitch-field {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      --glitch-duration: 260ms;
+      --glitch-damage: 2.7;
+    }
+
+    .page-glitch-field.is-active {
+      filter: contrast(1.65) brightness(1.26);
+    }
+
+    .page-glitch-field.is-active::before {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.9) 0,
+          rgba(255, 255, 255, 0.9) 1px,
+          transparent 1px,
+          transparent 4px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 12px,
+          rgba(255, 255, 255, 0.22) 12px,
+          rgba(255, 255, 255, 0.22) 15px
+        ),
+        linear-gradient(90deg, transparent 0 6%, rgba(0, 246, 255, 0.82) 10%, transparent 18% 49%, rgba(255, 0, 102, 0.76) 56%, transparent 66% 100%);
+    }
+
+    .page-glitch-field.is-active::after {
+      background:
+        linear-gradient(90deg, transparent 0 4%, rgba(255, 255, 255, 0.86) 8%, transparent 16% 100%),
+        linear-gradient(180deg, transparent 0 10%, rgba(0, 246, 255, 0.72) 13% 24%, transparent 27% 34%, rgba(255, 0, 102, 0.66) 38% 52%, transparent 55% 62%, rgba(255, 255, 255, 0.58) 66% 78%, transparent 82% 100%);
+    }
+
+    .glitch-field::before,
+    .glitch-field::after {
+      content: "";
+      position: absolute;
+      inset: -8%;
+      opacity: 0;
+    }
+
+    .glitch-field::before {
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.42)) 0,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.42)) 1px,
+          transparent 1px,
+          transparent 5px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 18px,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.08)) 18px,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.08)) 20px
+        ),
+        linear-gradient(90deg, transparent 0 8%, rgba(0, 246, 255, calc(var(--glitch-damage) * 0.44)) 12%, transparent 17% 54%, rgba(255, 0, 102, calc(var(--glitch-damage) * 0.4)) 60%, transparent 67% 100%);
+      transform: translateX(-5%);
+    }
+
+    .glitch-field::after {
+      background:
+        linear-gradient(90deg, transparent 0 5%, rgba(255, 255, 255, calc(var(--glitch-damage) * 0.42)) 9%, transparent 15% 100%),
+        linear-gradient(180deg, transparent 0 12%, rgba(0, 246, 255, calc(var(--glitch-damage) * 0.4)) 15% 22%, transparent 25% 36%, rgba(255, 0, 102, calc(var(--glitch-damage) * 0.38)) 39% 49%, transparent 52% 64%, rgba(255, 255, 255, calc(var(--glitch-damage) * 0.34)) 68% 75%, transparent 79% 100%);
+      clip-path: polygon(0 8%, 100% 5%, 100% 19%, 0 23%, 0 32%, 100% 28%, 100% 45%, 0 51%, 0 62%, 100% 58%, 100% 75%, 0 81%);
+      transform: translateX(5%);
+    }
+
+    .glitch-field i {
+      position: absolute;
+      display: block;
+      width: var(--block-width, 22vw);
+      height: var(--block-height, 18px);
+      left: var(--block-left, 50%);
+      top: var(--block-top, 50%);
+      opacity: 0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.38)) 0,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.38)) 7px,
+          transparent 7px,
+          transparent 14px
+        ),
+        linear-gradient(90deg, rgba(0, 246, 255, calc(var(--glitch-damage) * 0.28)), rgba(255, 0, 102, calc(var(--glitch-damage) * 0.22)));
+      box-shadow:
+        0 0 16px rgba(255, 255, 255, calc(var(--glitch-damage) * 0.24)),
+        22px 0 0 rgba(0, 246, 255, calc(var(--glitch-damage) * 0.16)),
+        -18px 0 0 rgba(255, 0, 102, calc(var(--glitch-damage) * 0.14));
+    }
+
+    .glitch-field i:nth-child(1) {
+      --block-width: 28vw;
+      --block-height: 11px;
+      --block-left: 12%;
+      --block-top: 23%;
+    }
+
+    .glitch-field i:nth-child(2) {
+      --block-width: 34vw;
+      --block-height: 19px;
+      --block-left: 46%;
+      --block-top: 38%;
+    }
+
+    .glitch-field i:nth-child(3) {
+      --block-width: 18vw;
+      --block-height: 14px;
+      --block-left: 24%;
+      --block-top: 57%;
+    }
+
+    .glitch-field i:nth-child(4) {
+      --block-width: 30vw;
+      --block-height: 24px;
+      --block-left: 58%;
+      --block-top: 66%;
+    }
+
+    .glitch-field i:nth-child(5) {
+      --block-width: 20vw;
+      --block-height: 9px;
+      --block-left: 66%;
+      --block-top: 29%;
+    }
+
+    .glitch-field i:nth-child(6) {
+      --block-width: 42vw;
+      --block-height: 13px;
+      --block-left: 8%;
+      --block-top: 76%;
+    }
+
+    .glitch-field.is-active {
+      animation: glitch-flash var(--glitch-duration) steps(2, end) both;
+    }
+
+    .glitch-field.is-active::before {
+      animation: glitch-scan var(--glitch-duration) steps(3, end) both;
+    }
+
+    .glitch-field.is-active::after {
+      animation: glitch-slice var(--glitch-duration) steps(4, end) both;
+    }
+
+    .glitch-field.is-active i {
+      animation: glitch-block-damage var(--glitch-duration) steps(3, end) both;
+    }
+
+    .glitch-field.is-active i:nth-child(2n) {
+      animation-name: glitch-block-damage-alt;
+    }
+
+    .glitch-field.is-active i:nth-child(3n) {
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.2)) 0,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.2)) 5px,
+          #000 5px,
+          #000 17px
+        );
+      mix-blend-mode: normal;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, calc(var(--glitch-damage) * 0.1)),
+        18px 0 0 rgba(0, 0, 0, calc(var(--glitch-damage) * 0.72));
+    }
+
+    .glitch-field b {
+      position: absolute;
+      display: block;
+      top: -8%;
+      height: 116%;
+      width: var(--bar-width, 12px);
+      left: var(--bar-left, 50%);
+      opacity: 0;
+      background:
+        linear-gradient(
+          180deg,
+          transparent 0 8%,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.95)) 10% 34%,
+          transparent 37% 49%,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.78)) 52% 77%,
+          transparent 81% 100%
+        );
+      box-shadow:
+        0 0 18px rgba(255, 255, 255, calc(var(--glitch-damage) * 0.34)),
+        16px 0 0 rgba(255, 255, 255, calc(var(--glitch-damage) * 0.08)),
+        -18px 0 0 rgba(0, 246, 255, calc(var(--glitch-damage) * 0.12));
+      mix-blend-mode: screen;
+    }
+
+    .glitch-field b:nth-of-type(1) {
+      --bar-left: 18%;
+      --bar-width: 8px;
+    }
+
+    .glitch-field b:nth-of-type(2) {
+      --bar-left: 43%;
+      --bar-width: 14px;
+    }
+
+    .glitch-field b:nth-of-type(3) {
+      --bar-left: 71%;
+      --bar-width: 10px;
+    }
+
+    .glitch-field b:nth-of-type(4) {
+      --bar-left: 84%;
+      --bar-width: 18px;
+    }
+
+    .glitch-field.is-active b {
+      animation: glitch-vertical-bars var(--glitch-duration) steps(4, end) both;
+    }
+
+    .glitch-field.is-variant-b b:nth-of-type(1),
+    .glitch-field.is-variant-d b:nth-of-type(2) {
+      --bar-left: 27%;
+      --bar-width: 18px;
+    }
+
+    .glitch-field.is-variant-b b:nth-of-type(3),
+    .glitch-field.is-variant-c b:nth-of-type(4) {
+      --bar-left: 62%;
+      --bar-width: 7px;
+    }
+
+    .glitch-field.is-variant-c::after {
+      clip-path: polygon(0 14%, 100% 11%, 100% 25%, 0 29%, 0 46%, 100% 42%, 100% 56%, 0 61%, 0 78%, 100% 74%, 100% 84%, 0 89%);
+    }
+
+    .glitch-field.is-variant-d::before {
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.28)) 0,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.28)) 2px,
+          transparent 2px,
+          transparent 9px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0,
+          transparent 10px,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.34)) 10px,
+          rgba(255, 255, 255, calc(var(--glitch-damage) * 0.34)) 13px
+        );
+    }
+
+    .stage-fade {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: clamp(84px, 11svh, 140px);
+      z-index: 10;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #000 88%);
+    }
+
+    .boundary-title {
+      position: relative;
+      margin: 0;
+      pointer-events: none;
+    }
+
+    .boundary-title span {
+      display: block;
+      width: min(94vw, 1120px);
+      transform: translateY(calc((1 - var(--title-visibility)) * 10px));
+      color: rgba(255, 255, 255, 0.96);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", Arial, Helvetica, sans-serif;
+      font-size: min(42px, calc((94vw - 16px) / 21));
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: 0;
+      text-align: center;
+      white-space: nowrap;
+      text-shadow:
+        0 0 2px rgba(255, 255, 255, 0.72),
+        0 0 20px rgba(255, 255, 255, 0.38),
+        0 0 56px rgba(255, 255, 255, 0.16);
+      will-change: transform, opacity, filter;
+    }
+
+    .button-space {
+      min-height: 50svh;
+      background: #000;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: clamp(34px, 5.6svh, 72px) 5vw 0;
+    }
+
+    .lower-content {
+      position: relative;
+      z-index: 20;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(30px, 5.4svh, 58px);
+      opacity: var(--title-visibility);
+      filter: brightness(calc(0.58 + var(--title-visibility) * 0.42));
+      transition: opacity 120ms linear, filter 160ms ease;
+    }
+
+    .experience-button {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 999px;
+      min-width: clamp(148px, 28vw, 210px);
+      height: clamp(48px, 6.8svh, 58px);
+      padding: 0 clamp(30px, 5vw, 46px);
+      background: #000;
+      color: rgba(255, 255, 255, 0.96);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, Helvetica, sans-serif;
+      font-size: clamp(17px, 2.4vw, 20px);
+      font-weight: 600;
+      letter-spacing: 0;
+      cursor: pointer;
+      box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.28),
+        0 0 26px rgba(255, 255, 255, 0.14),
+        inset 0 0 12px rgba(255, 255, 255, 0.06);
+      transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    }
+
+    .experience-button:hover {
+      border-color: rgba(255, 255, 255, 0.96);
+      box-shadow:
+        0 0 14px rgba(255, 255, 255, 0.38),
+        0 0 34px rgba(255, 255, 255, 0.2),
+        inset 0 0 14px rgba(255, 255, 255, 0.08);
+    }
+
+    .experience-button:active,
+    .experience-button.is-pressed {
+      transform: scale(0.97);
+      background: #000;
+    }
+
+    @keyframes grid-drift {
+      from {
+        background-position: 0 0, 0 0;
+      }
+      to {
+        background-position: 0 72px, 0 72px;
+      }
+    }
+
+    @keyframes grain-shift {
+      0% {
+        transform: translate3d(-4%, -2%, 0);
+      }
+      100% {
+        transform: translate3d(4%, 2%, 0);
+      }
+    }
+
+    @keyframes logo-glitch-jitter {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) skewX(0deg);
+      }
+      12% {
+        transform: translate3d(-20px, 3px, 0) skewX(-2.5deg);
+      }
+      24% {
+        transform: translate3d(18px, -2px, 0) skewX(2deg);
+      }
+      37% {
+        transform: translate3d(-9px, 1px, 0) scaleX(1.07);
+      }
+      51% {
+        transform: translate3d(22px, 2px, 0) scaleX(0.94);
+      }
+      68% {
+        transform: translate3d(-16px, -2px, 0);
+      }
+      82% {
+        transform: translate3d(11px, 0, 0);
+      }
+    }
+
+    @keyframes final-copy-glitch {
+      0%,
+      100% {
+        transform: translateY(0) skewX(0deg);
+      }
+      12% {
+        transform: translate(-18px, 1px) skewX(-2deg);
+      }
+      25% {
+        transform: translate(15px, -1px) skewX(1.6deg);
+      }
+      41% {
+        transform: translate(-8px, 0) scaleX(1.04);
+      }
+      59% {
+        transform: translate(20px, 1px) scaleX(0.96);
+      }
+      77% {
+        transform: translate(-10px, -1px);
+      }
+    }
+
+    @keyframes glitch-flash {
+      0%,
+      100% {
+        opacity: 0;
+      }
+      8%,
+      18% {
+        opacity: 1;
+      }
+      31%,
+      43% {
+        opacity: 0.58;
+      }
+      58%,
+      70% {
+        opacity: 0.86;
+      }
+      84% {
+        opacity: 0.4;
+      }
+    }
+
+    @keyframes glitch-scan {
+      0%,
+      100% {
+        opacity: 0;
+        transform: translateX(-4%) translateY(-2%);
+      }
+      18% {
+        opacity: 0.95;
+        transform: translateX(6%) translateY(0);
+      }
+      42% {
+        opacity: 0.52;
+        transform: translateX(-5%) translateY(3%);
+      }
+      68% {
+        opacity: 0.78;
+        transform: translateX(7%) translateY(-2%);
+      }
+    }
+
+    @keyframes glitch-slice {
+      0%,
+      100% {
+        opacity: 0;
+        transform: translateX(0);
+      }
+      10% {
+        opacity: 1;
+        transform: translateX(34px);
+      }
+      28% {
+        opacity: 0.48;
+        transform: translateX(-30px);
+      }
+      54% {
+        opacity: 0.88;
+        transform: translateX(24px);
+      }
+      76% {
+        opacity: 0.42;
+        transform: translateX(-16px);
+      }
+    }
+
+    @keyframes glitch-block-damage {
+      0%,
+      100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scaleX(1);
+      }
+      14% {
+        opacity: calc(var(--glitch-damage) * 0.82);
+        transform: translate3d(48px, -4px, 0) scaleX(1.18);
+      }
+      31% {
+        opacity: calc(var(--glitch-damage) * 0.28);
+        transform: translate3d(-32px, 2px, 0) scaleX(0.82);
+      }
+      48% {
+        opacity: calc(var(--glitch-damage) * 0.7);
+        transform: translate3d(26px, 0, 0) scaleX(1.36);
+      }
+      72% {
+        opacity: calc(var(--glitch-damage) * 0.4);
+        transform: translate3d(-18px, 3px, 0) scaleX(0.72);
+      }
+    }
+
+    @keyframes glitch-block-damage-alt {
+      0%,
+      100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scaleX(1);
+      }
+      18% {
+        opacity: calc(var(--glitch-damage) * 0.58);
+        transform: translate3d(-54px, 3px, 0) scaleX(0.78);
+      }
+      36% {
+        opacity: calc(var(--glitch-damage) * 0.86);
+        transform: translate3d(38px, -2px, 0) scaleX(1.44);
+      }
+      64% {
+        opacity: calc(var(--glitch-damage) * 0.34);
+        transform: translate3d(-24px, 0, 0) scaleX(1.12);
+      }
+      82% {
+        opacity: calc(var(--glitch-damage) * 0.62);
+        transform: translate3d(18px, 2px, 0) scaleX(0.84);
+      }
+    }
+
+    @keyframes glitch-vertical-bars {
+      0%,
+      100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scaleY(1);
+      }
+      10% {
+        opacity: calc(var(--glitch-damage) * 0.98);
+        transform: translate3d(-22px, 0, 0) scaleY(0.84);
+      }
+      24% {
+        opacity: calc(var(--glitch-damage) * 0.36);
+        transform: translate3d(18px, 0, 0) scaleY(1.22);
+      }
+      39% {
+        opacity: calc(var(--glitch-damage) * 0.88);
+        transform: translate3d(42px, 0, 0) scaleY(0.58);
+      }
+      61% {
+        opacity: calc(var(--glitch-damage) * 0.5);
+        transform: translate3d(-34px, 0, 0) scaleY(1.08);
+      }
+      79% {
+        opacity: calc(var(--glitch-damage) * 0.72);
+        transform: translate3d(12px, 0, 0) scaleY(0.72);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .stage::before {
+        background-size: 44px 44px, 44px 44px;
+        opacity: calc(var(--intro-visibility) * 0.28);
+      }
+
+      .logo-shell {
+        width: 82vw;
+        height: clamp(96px, 15vh, 132px);
+      }
+
+      .logo,
+      .logo.is-white-card {
+        height: clamp(68px, 9.8vh, 78px);
+        max-width: 76vw;
+      }
+
+      .logo-shell.has-wordmark {
+        width: 86vw;
+      }
+
+      .logo-shell.has-wordmark .logo {
+        height: clamp(58px, 8.6vh, 70px);
+        max-width: 18vw;
+      }
+
+      .logo-shell.has-wordmark .logo-wordmark {
+        height: clamp(68px, 10vh, 84px);
+        max-width: 58vw;
+      }
+
+      .logo.is-large-logo {
+        height: clamp(82px, 11.5vh, 96px);
+        max-width: 80vw;
+      }
+
+      .logo.is-small-logo {
+        height: clamp(48px, 7vh, 62px);
+        max-width: 68vw;
+      }
+
+      .logo.is-tall-logo {
+        height: clamp(108px, 15vh, 128px);
+        max-width: 72vw;
+      }
+
+      .logo.is-extra-tall-logo {
+        height: clamp(128px, 18vh, 148px);
+        max-width: 72vw;
+      }
+
+      .logo.is-wide-logo {
+        height: clamp(46px, 6.8vh, 58px);
+        max-width: 66vw;
+      }
+
+      .logo.is-google-logo {
+        height: clamp(96px, 13.6vh, 116px);
+        max-width: 70vw;
+        transform: translateX(8px) translateZ(0);
+      }
+
+      .logo.is-insta-logo {
+        height: clamp(34px, 5.2vh, 44px);
+        max-width: 60vw;
+      }
+
+      .logo.is-kunlun-logo {
+        height: clamp(92px, 13.4vh, 112px);
+        max-width: 70vw;
+      }
+
+      .logo.is-vast-logo {
+        height: clamp(44px, 6.4vh, 56px);
+        max-width: 72vw;
+      }
+
+      .logo.is-ant-logo {
+        height: clamp(126px, 17.6vh, 148px);
+        max-width: 76vw;
+        transform: translate(8px, 28px) translateZ(0);
+      }
+
+      .logo.is-dji-logo {
+        height: clamp(92px, 13.2vh, 112px);
+        max-width: 68vw;
+        transform: translate(6px, 6px) translateZ(0);
+      }
+
+      .logo.is-zhipu-logo {
+        height: clamp(58px, 8.4vh, 72px);
+        max-width: 70vw;
+      }
+
+      .logo.is-amazon-logo {
+        transform: translateX(8px) translateZ(0);
+      }
+
+      .logo-shell.is-kimi-wordmark .logo-wordmark {
+        height: clamp(34px, 5.6vh, 46px);
+        max-width: 58vw;
+      }
+
+      .final-copy span {
+        font-size: 1.85rem;
+        line-height: 1.06;
+        letter-spacing: 0;
+        white-space: normal;
+      }
+
+      .hud {
+        opacity: calc(var(--intro-visibility) * 0.32);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stage::before,
+      .grain,
+      .logo-shell.is-glitching .logo-combo,
+      .final-copy.is-glitching,
+      .glitch-field,
+      .glitch-field::before,
+      .glitch-field::after,
+      .glitch-field i,
+      .glitch-field b {
+        animation: none;
+      }
+    }
+  
+
+      #landing-page[hidden],
+      #app-shell[hidden] {
+        display: none !important;
+      }
+
+      body.library-open {
+        min-height: 100%;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+      }
+    </style>
   </head>
   <body>
-    <main class="shell">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Interview Prep Library</p>
-          <h1>AI 面试资料库</h1>
-          <p class="lede">面向求职者的免费岗位资料库：岗位画像、考察维度、知识地图、高频问答、错误范本、追问方向、回答框架、评分 Rubric、简历优化和参考来源。</p>
+    <div id="landing-page">
+      <main class="stage" aria-label="Logo animation">
+          <div class="ambient" id="ambient" aria-hidden="true"></div>
+          <div class="beam is-live" id="beam"></div>
+          <div class="hud" aria-hidden="true">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <div class="logo-shell" id="logoShell">
+            <div class="logo-combo" id="logoCombo">
+              <img class="logo" id="logo" alt="">
+              <img class="logo-wordmark" id="logoWordmark" alt="">
+            </div>
+          </div>
+          <div class="final-copy notranslate" id="finalCopy" translate="no">
+            <span class="notranslate" translate="no" data-text="Welcome to the Future in Motion.">Welcome to the Future in Motion.</span>
+          </div>
+          <div class="blackout" id="blackout"></div>
+          <div class="glitch-field" id="glitchField" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i>
+            <b></b><b></b><b></b><b></b>
+          </div>
+          <div class="grain" aria-hidden="true"></div>
+          <div class="stage-fade" aria-hidden="true"></div>
+        </main>
+        <section class="button-space">
+          <div class="lower-content">
+            <h1 class="boundary-title" aria-label="让每一次求职选择，都更接近真实的自己。">
+              <span>让每一次求职选择，都更接近真实的自己。</span>
+            </h1>
+            <button class="experience-button" id="experienceButton" type="button">立即体验</button>
+          </div>
+        </section>
+        <div class="glitch-field page-glitch-field" id="pageGlitchField" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+          <b></b><b></b><b></b><b></b>
         </div>
-        <div class="mode-badge">无需登录 · 不接 API · 纯资料库</div>
-      </header>
+    </div>
 
-      <section class="role-tabs" id="role-tabs" aria-label="选择岗位"></section>
-      <section id="library-content" class="library-content"></section>
+    <main class="shell" id="app-shell" hidden>
+      <header class="topbar">
+              <div>
+                <p class="eyebrow">Interview Prep Library</p>
+                <h1>AI 面试资料库</h1>
+                <p class="lede">面向求职者的免费岗位资料库：岗位画像、考察维度、知识地图、高频问答、错误范本、追问方向、回答框架、评分 Rubric、简历优化和参考来源。</p>
+              </div>
+              <div class="mode-badge">无需登录 · 不接 API · 纯资料库</div>
+            </header>
+      
+            <section class="role-tabs" id="role-tabs" aria-label="选择岗位"></section>
+            <section id="library-content" class="library-content"></section>
     </main>
 
-    <script src="app.js?v=library-v14" type="module"></script>
+    <script>
+
+    const assetBase = "company-logos-video-bg/";
+
+    const logos = [
+      { name: "ByteDance", file: "bytedance.svg", wordmarkFile: "bytedance-wordmark-transparent.png" },
+      { name: "Tencent", file: "tencent-user.png", smallLogo: true },
+      { name: "Alibaba", file: "alibaba-user.png", largeLogo: true },
+      { name: "Huawei", file: "huawei-user.png", largeLogo: true },
+      { name: "Pinduoduo", file: "pinduoduo-user-v2.png", largeLogo: true },
+      { name: "Xiaomi", file: "xiaomi.svg" },
+      { name: "Ant Group", file: "antgroup-user.png", antLogo: true },
+      { name: "Meituan", file: "meituan.svg" },
+      { name: "NetEase", file: "netease-web.png", largeLogo: true },
+      { name: "JD.com", file: "jd.svg?v=white", wordmarkFile: "jd-wordmark.png" },
+      { name: "Baidu", file: "baidu.svg" },
+      { name: "Trip.com", file: "tripdotcom.svg" },
+      { name: "Kuaishou", file: "kuaishou-user.png", largeLogo: true },
+      { name: "DeepSeek", file: "deepseek.svg" },
+      { name: "Zhipu AI", file: "zhipu-user.png", zhipuLogo: true },
+      { name: "Kimi", file: "kimi.svg", wordmarkFile: "moonshot-wordmark.png", kimiWordmark: true },
+      { name: "MiniMax", file: "minimax.svg" },
+      { name: "StepFun", file: "stepfun.svg" },
+      { name: "Apple", file: "apple.svg" },
+      { name: "Microsoft", file: "microsoft.svg" },
+      { name: "Google", file: "google-user.png", googleLogo: true },
+      { name: "Amazon", file: "amazon-user.png", amazonLogo: true },
+      { name: "Meta", file: "meta.svg" },
+      { name: "Tesla", file: "tesla.svg" },
+      { name: "OpenAI", file: "openai.svg" },
+      { name: "Claude", file: "claude.svg" },
+      { name: "DJI", file: "dji-user.png", djiLogo: true },
+      { name: "Insta360", file: "insta360-user.png", instaLogo: true },
+      { name: "Kunlun", file: "kunlun-user.png", kunlunLogo: true },
+      { name: "OPPO", file: "oppo.svg", largeLogo: true },
+      { name: "vivo", file: "vivo.svg", largeLogo: true },
+      { name: "HONOR", file: "honor.svg", largeLogo: true },
+      { name: "Xiaohongshu", file: "xiaohongshu.svg", largeLogo: true },
+      { name: "miHoYo", file: "mihoyo.svg", largeLogo: true },
+      { name: "Bilibili", file: "bilibili.svg" },
+      { name: "360", file: "360.svg" },
+      { name: "01.AI", file: "01ai.png" },
+      { name: "Baichuan", file: "baichuan.svg" },
+      { name: "SenseTime", file: "sensetime.png" },
+      { name: "4Paradigm", file: "4paradigm-white.png", whiteCard: true },
+      { name: "ModelBest", file: "modelbest.svg" },
+      { name: "Vidu", file: "shengshu-vidu.svg" },
+      { name: "Megvii", file: "megvii-transparent.png" },
+      { name: "Meshy", file: "meshy-transparent.png" },
+      { name: "Vast.ai", file: "vast-user.png", vastLogo: true }
+    ];
+
+    const loopMs = 24150;
+    const logoPhaseMs = 20350;
+    const blackoutStartMs = 20350;
+    const blackoutEndMs = 21100;
+    const finalStartMs = 21250;
+    const finalHideStartMs = 22680;
+    const firstHoldMs = 5000;
+    const tripHoldExtraMs = 0;
+    const vastHoldExtraMs = 650;
+    const logoShell = document.getElementById("logoShell");
+    const logoImg = document.getElementById("logo");
+    const logoWordmark = document.getElementById("logoWordmark");
+    const beam = document.getElementById("beam");
+    const finalCopy = document.getElementById("finalCopy");
+    const blackout = document.getElementById("blackout");
+    const glitchField = document.getElementById("glitchField");
+    const experienceButton = document.getElementById("experienceButton");
+    const pageGlitchField = document.getElementById("pageGlitchField");
+    const glitchBlocks = [...glitchField.querySelectorAll("i")];
+    const glitchBars = [...glitchField.querySelectorAll("b")];
+    const pageGlitchBlocks = [...pageGlitchField.querySelectorAll("i")];
+    const pageGlitchBars = [...pageGlitchField.querySelectorAll("b")];
+
+    const tailDurations = makeAcceleratedDurations(logos.length - 1, logoPhaseMs - firstHoldMs - tripHoldExtraMs - vastHoldExtraMs);
+    const durations = [firstHoldMs, ...tailDurations];
+    const tripScheduleIndex = logos.findIndex((logo) => logo.name === "Trip.com");
+    if (tripScheduleIndex > 0) {
+      durations[tripScheduleIndex] += tripHoldExtraMs;
+    }
+    const vastScheduleIndex = logos.findIndex((logo) => logo.name === "Vast.ai");
+    if (vastScheduleIndex > 0) {
+      durations[vastScheduleIndex] += vastHoldExtraMs;
+    }
+    const starts = durations.reduce((acc, duration, index) => {
+      acc.push(index === 0 ? 0 : acc[index - 1] + durations[index - 1]);
+      return acc;
+    }, []);
+    const glitchVariants = ["is-variant-a", "is-variant-b", "is-variant-c", "is-variant-d"];
+    const glitchDurationMs = 360;
+    let glitchBursts = makeRandomGlitchBursts();
+    let previousElapsed = 0;
+    let activeGlitchId = null;
+
+    logos.forEach((item) => {
+      const img = new Image();
+      img.src = assetBase + item.file;
+      if (item.wordmarkFile) {
+        const wordmark = new Image();
+        wordmark.src = assetBase + item.wordmarkFile;
+      }
+    });
+
+    experienceButton.addEventListener("click", () => {
+      experienceButton.classList.add("is-pressed");
+      window.setTimeout(() => experienceButton.classList.remove("is-pressed"), 160);
+      triggerPageGlitch();
+      window.setTimeout(openLibrary, 220);
+    });
+
+    let currentIndex = -1;
+    let startTime = performance.now();
+
+    function makeAcceleratedDurations(count, targetMs) {
+      if (count <= 0) return [];
+      const raw = Array.from({ length: count }, (_, index) => {
+        const t = count === 1 ? 1 : index / (count - 1);
+        const eased = 1 - Math.pow(1 - t, 2.2);
+        return 760 + (180 - 760) * eased;
+      });
+      const total = raw.reduce((sum, value) => sum + value, 0);
+      const scale = targetMs / total;
+      return raw.map((value) => value * scale);
+    }
+
+    function findLogoIndex(time) {
+      if (time >= logoPhaseMs) return -1;
+      for (let i = starts.length - 1; i >= 0; i -= 1) {
+        if (time >= starts[i]) return i;
+      }
+      return 0;
+    }
+
+    function setLogo(index) {
+      if (index === currentIndex) return;
+      currentIndex = index;
+      if (index < 0) return;
+      const item = logos[index];
+      logoImg.src = assetBase + item.file;
+      logoImg.alt = item.name;
+      if (item.wordmarkFile) {
+        logoWordmark.src = assetBase + item.wordmarkFile;
+        logoWordmark.alt = `${item.name} wordmark`;
+      } else {
+        logoWordmark.removeAttribute("src");
+        logoWordmark.alt = "";
+      }
+      logoShell.classList.toggle("has-wordmark", Boolean(item.wordmarkFile));
+      logoShell.classList.toggle("is-kimi-wordmark", Boolean(item.kimiWordmark));
+      logoShell.classList.toggle("is-vast-shell", Boolean(item.vastLogo));
+      logoImg.classList.toggle("is-white-card", Boolean(item.whiteCard));
+      logoImg.classList.toggle("is-large-logo", Boolean(item.largeLogo));
+      logoImg.classList.toggle("is-small-logo", Boolean(item.smallLogo));
+      logoImg.classList.toggle("is-tall-logo", Boolean(item.tallLogo));
+      logoImg.classList.toggle("is-wide-logo", Boolean(item.wideLogo));
+      logoImg.classList.toggle("is-extra-tall-logo", Boolean(item.extraTallLogo));
+      logoImg.classList.toggle("is-google-logo", Boolean(item.googleLogo));
+      logoImg.classList.toggle("is-insta-logo", Boolean(item.instaLogo));
+      logoImg.classList.toggle("is-kunlun-logo", Boolean(item.kunlunLogo));
+      logoImg.classList.toggle("is-vast-logo", Boolean(item.vastLogo));
+      logoImg.classList.toggle("is-ant-logo", Boolean(item.antLogo));
+      logoImg.classList.toggle("is-dji-logo", Boolean(item.djiLogo));
+      logoImg.classList.toggle("is-zhipu-logo", Boolean(item.zhipuLogo));
+      logoImg.classList.toggle("is-amazon-logo", Boolean(item.amazonLogo));
+    }
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function smoothstep(edge0, edge1, value) {
+      const t = clamp((value - edge0) / (edge1 - edge0), 0, 1);
+      return t * t * (3 - 2 * t);
+    }
+
+    function render(now) {
+      const elapsed = (now - startTime) % loopMs;
+      if (elapsed < previousElapsed) {
+        glitchBursts = makeRandomGlitchBursts();
+      }
+      previousElapsed = elapsed;
+      const progress = elapsed / loopMs;
+      document.documentElement.style.setProperty("--loop-progress", progress.toFixed(4));
+      const titleVisibility = elapsed < firstHoldMs ? smoothstep(0.02, 0.92, elapsed / firstHoldMs) : 1;
+      document.documentElement.style.setProperty("--title-visibility", titleVisibility.toFixed(3));
+
+      const index = findLogoIndex(elapsed);
+      const inLogoPhase = index >= 0;
+      const inBlackout = elapsed >= blackoutStartMs && elapsed < blackoutEndMs;
+      const inFinal = elapsed >= finalStartMs;
+      const glitch = getGlitchBurst(elapsed);
+      const isLogoGlitching = Boolean(glitch && glitch.target === "logo" && inLogoPhase);
+      const isPostLogoGlitching = Boolean(glitch && glitch.target === "post-logo" && inBlackout);
+      const isFinalGlitching = Boolean(glitch && glitch.target === "final" && inFinal);
+
+      if (glitch && glitch.id !== activeGlitchId) {
+        activeGlitchId = glitch.id;
+        applyGlitchProfile(glitch);
+      } else if (!glitch) {
+        activeGlitchId = null;
+      }
+
+      logoShell.classList.toggle("is-glitching", isLogoGlitching);
+      finalCopy.classList.toggle("is-glitching", isFinalGlitching);
+      glitchField.classList.toggle("is-active", isLogoGlitching || isPostLogoGlitching || isFinalGlitching);
+      glitchVariants.forEach((variant) => glitchField.classList.toggle(variant, glitch && glitch.variant === variant));
+      if (glitch) {
+        document.documentElement.style.setProperty("--glitch-duration", `${glitch.duration}ms`);
+        document.documentElement.style.setProperty("--glitch-damage", glitch.damage.toFixed(2));
+      }
+
+      if (inLogoPhase) {
+        setLogo(index);
+        const local = elapsed - starts[index];
+        const duration = durations[index];
+        const localProgress = clamp(local / duration, 0, 1);
+        const intro = index === 0 ? smoothstep(0.02, 0.92, localProgress) : 1;
+        const fadeIn = index === 0 ? intro : clamp(localProgress / 0.28, 0, 1);
+        const fadeOutWindow = logos[index].vastLogo ? 0.012 : 0.22;
+        const fadeOut = clamp((1 - localProgress) / fadeOutWindow, 0, 1);
+        const reveal = Math.min(fadeIn, fadeOut);
+        const ramp = index === 0 ? intro : 1;
+
+        logoShell.classList.add("is-visible");
+        finalCopy.classList.remove("is-visible");
+        beam.classList.add("is-live");
+        beam.classList.remove("final");
+        blackout.style.opacity = "0";
+        logoShell.style.setProperty("--logo-opacity", reveal.toFixed(3));
+        logoShell.style.setProperty("--logo-brightness", "1");
+        logoShell.style.setProperty("--logo-scale", (0.98 + reveal * 0.02).toFixed(3));
+        beam.style.setProperty("--beam-opacity", (ramp * (0.9 + reveal * 0.1)).toFixed(3));
+        beam.style.setProperty("--beam-width", (0.16 + ramp * 1.04).toFixed(3));
+        beam.style.setProperty("--beam-blur", `${(32 - ramp * 13).toFixed(2)}px`);
+        document.documentElement.style.setProperty("--intro-visibility", ramp.toFixed(3));
+        document.documentElement.style.setProperty("--scan-opacity", (ramp * (0.22 + reveal * 0.36)).toFixed(3));
+      } else {
+        logoShell.classList.remove("is-visible");
+        logoShell.style.setProperty("--logo-opacity", "0");
+        logoShell.style.setProperty("--logo-brightness", "1");
+
+        if (inBlackout) {
+          beam.classList.remove("is-live");
+          finalCopy.classList.remove("is-visible");
+          blackout.style.opacity = "1";
+          document.documentElement.style.setProperty("--intro-visibility", "0");
+          document.documentElement.style.setProperty("--scan-opacity", "0");
+        } else if (inFinal) {
+          const finalProgress = clamp((elapsed - finalStartMs) / (loopMs - finalStartMs), 0, 1);
+          const glow = clamp(finalProgress / 0.45, 0, 1);
+          blackout.style.opacity = "0";
+          beam.classList.add("is-live", "final");
+          finalCopy.classList.toggle("is-visible", elapsed < finalHideStartMs);
+          document.documentElement.style.setProperty("--intro-visibility", glow.toFixed(3));
+          beam.style.setProperty("--beam-opacity", (0.18 + glow * 0.68).toFixed(3));
+          beam.style.setProperty("--beam-width", (0.18 + glow * 0.96).toFixed(3));
+          beam.style.setProperty("--beam-blur", `${(38 - glow * 15).toFixed(2)}px`);
+          document.documentElement.style.setProperty("--scan-opacity", (0.12 + glow * 0.18).toFixed(3));
+        }
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    function getGlitchBurst(time) {
+      return glitchBursts.find((burst) => time >= burst.at && time < burst.at + burst.duration);
+    }
+
+    function makeRandomGlitchBursts() {
+      let id = 0;
+      const alibabaIndex = logos.findIndex((logo) => logo.name === "Alibaba");
+      const neteaseIndex = logos.findIndex((logo) => logo.name === "NetEase");
+      const tripIndex = logos.findIndex((logo) => logo.name === "Trip.com");
+      const vastIndex = logos.findIndex((logo) => logo.name === "Vast.ai");
+      const tripGlitchDuration = Math.min(glitchDurationMs, Math.max(160, durations[tripIndex] * 0.34));
+      const vastGlitchDuration = glitchDurationMs;
+      const firstByteDanceGlitch = {
+        id: id += 1,
+        at: 3850,
+        duration: glitchDurationMs,
+        damage: 1.28,
+        target: "logo",
+        variant: "is-variant-b"
+      };
+      const alibabaGlitch = {
+        id: id += 1,
+        at: starts[alibabaIndex] + durations[alibabaIndex] * 0.38,
+        duration: Math.min(glitchDurationMs, durations[alibabaIndex] * 0.4),
+        damage: 1.44,
+        target: "logo",
+        variant: "is-variant-c"
+      };
+      const neteaseGlitch = {
+        id: id += 1,
+        at: starts[neteaseIndex] + durations[neteaseIndex] * 0.44,
+        duration: Math.min(glitchDurationMs, durations[neteaseIndex] * 0.5),
+        damage: 1.34,
+        target: "logo",
+        variant: "is-variant-a"
+      };
+      const tripGlitch = {
+        id: id += 1,
+        at: starts[tripIndex] + durations[tripIndex] - tripGlitchDuration,
+        duration: tripGlitchDuration,
+        damage: 1.38,
+        target: "logo",
+        variant: "is-variant-b"
+      };
+      const vastGlitch = {
+        id: id += 1,
+        at: logoPhaseMs + 30,
+        duration: vastGlitchDuration,
+        damage: 1.62,
+        target: "post-logo",
+        variant: "is-variant-d"
+      };
+      const logoBursts = [
+        ...makeRandomTimes({ count: 1, min: 12800, max: 15800, minGap: 760 }),
+        ...makeRandomTimes({ count: 2, min: 15800, max: 17800, minGap: 620 }),
+        ...makeRandomTimes({ count: 0, min: 17800, max: starts[vastIndex] - glitchDurationMs - 240, minGap: 520 })
+      ].sort((a, b) => a - b).map((at, order) => ({
+        id: id += 1,
+        at,
+        duration: glitchDurationMs,
+        damage: Math.min(1.62, 1.12 + order * 0.055 + Math.random() * 0.18),
+        target: "logo",
+        variant: glitchVariants[(order + Math.floor(Math.random() * glitchVariants.length)) % glitchVariants.length]
+      }));
+
+      const finalGlitch = {
+        id: id += 1,
+        at: finalHideStartMs + 45,
+        duration: glitchDurationMs,
+        damage: 1.66,
+        target: "final",
+        variant: "is-variant-d"
+      };
+
+      return [firstByteDanceGlitch, alibabaGlitch, neteaseGlitch, tripGlitch, ...logoBursts, vastGlitch, finalGlitch].sort((a, b) => a.at - b.at);
+    }
+
+    function makeRandomTimes({ count, min, max, minGap }) {
+      const times = [];
+      let attempts = 0;
+      while (times.length < count && attempts < count * 80) {
+        attempts += 1;
+        const candidate = min + Math.random() * (max - min);
+        if (times.every((time) => Math.abs(time - candidate) >= minGap)) {
+          times.push(candidate);
+        }
+      }
+      return times.sort((a, b) => a - b);
+    }
+
+    function applyGlitchProfile(glitch) {
+      applyGlitchProfileTo(glitchBlocks, glitchBars, glitch);
+    }
+
+    function applyGlitchProfileTo(blocks, bars, glitch) {
+      const damage = glitch.damage;
+      blocks.forEach((block, index) => {
+        block.style.setProperty("--block-width", `${randomRange(12, 44).toFixed(1)}vw`);
+        block.style.setProperty("--block-height", `${randomRange(7, 28).toFixed(0)}px`);
+        block.style.setProperty("--block-left", `${randomRange(6, 76).toFixed(1)}%`);
+        block.style.setProperty("--block-top", `${randomRange(14, 82).toFixed(1)}%`);
+        block.style.animationDelay = `${randomRange(0, 52).toFixed(0)}ms`;
+        block.style.opacity = "0";
+        block.style.filter = `brightness(${randomRange(0.9, 1.25) * damage})`;
+        if (index % 2 === 0) {
+          block.style.mixBlendMode = Math.random() > 0.45 ? "screen" : "normal";
+        }
+      });
+
+      bars.forEach((bar) => {
+        bar.style.setProperty("--bar-left", `${randomRange(8, 88).toFixed(1)}%`);
+        bar.style.setProperty("--bar-width", `${randomRange(5, 22).toFixed(0)}px`);
+        bar.style.animationDelay = `${randomRange(0, 64).toFixed(0)}ms`;
+        bar.style.opacity = "0";
+      });
+    }
+
+    function triggerPageGlitch() {
+      const variant = glitchVariants[Math.floor(Math.random() * glitchVariants.length)];
+      const glitch = {
+        damage: 2.7,
+        variant
+      };
+      applyGlitchProfileTo(pageGlitchBlocks, pageGlitchBars, glitch);
+      pageGlitchBlocks.forEach((block) => {
+        block.style.setProperty("--block-width", `${randomRange(24, 72).toFixed(1)}vw`);
+        block.style.setProperty("--block-height", `${randomRange(12, 46).toFixed(0)}px`);
+        block.style.setProperty("--block-left", `${randomRange(-8, 72).toFixed(1)}%`);
+        block.style.setProperty("--block-top", `${randomRange(5, 92).toFixed(1)}%`);
+      });
+      pageGlitchBars.forEach((bar) => {
+        bar.style.setProperty("--bar-left", `${randomRange(3, 94).toFixed(1)}%`);
+        bar.style.setProperty("--bar-width", `${randomRange(10, 34).toFixed(0)}px`);
+      });
+      glitchVariants.forEach((name) => pageGlitchField.classList.toggle(name, name === variant));
+      pageGlitchField.classList.remove("is-active");
+      void pageGlitchField.offsetWidth;
+      pageGlitchField.classList.add("is-active");
+      window.setTimeout(() => {
+        pageGlitchField.classList.remove("is-active");
+        glitchVariants.forEach((name) => pageGlitchField.classList.remove(name));
+      }, 300);
+    }
+
+    function openLibrary() {
+      document.body.classList.add("library-open");
+      document.getElementById("landing-page").hidden = true;
+      document.getElementById("app-shell").hidden = false;
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    function randomRange(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    requestAnimationFrame(render);
+  
+    </script>
+    <script src="app.js?v=library-v15" type="module"></script>
   </body>
 </html>

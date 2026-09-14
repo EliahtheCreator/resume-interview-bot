@@ -1,0 +1,232 @@
+[
+  {
+    "source": "01ai.png",
+    "output": "01ai.png",
+    "action": "copied"
+  },
+  {
+    "source": "360.svg",
+    "output": "360.svg",
+    "action": "copied"
+  },
+  {
+    "source": "4paradigm-white.png",
+    "output": "4paradigm-white.png",
+    "action": "copied"
+  },
+  {
+    "source": "4paradigm.png",
+    "output": "4paradigm.png",
+    "action": "copied"
+  },
+  {
+    "source": "alibaba.svg",
+    "output": "alibaba.svg",
+    "action": "copied"
+  },
+  {
+    "source": "amazon.svg",
+    "output": "amazon.svg",
+    "action": "copied"
+  },
+  {
+    "source": "ant-alipay.svg",
+    "output": "ant-alipay.svg",
+    "action": "copied"
+  },
+  {
+    "source": "antgroup.svg",
+    "output": "antgroup.svg",
+    "action": "copied"
+  },
+  {
+    "source": "anthropic.svg",
+    "output": "anthropic.svg",
+    "action": "copied"
+  },
+  {
+    "source": "apple.svg",
+    "output": "apple.svg",
+    "action": "copied"
+  },
+  {
+    "source": "baichuan.svg",
+    "output": "baichuan.svg",
+    "action": "copied"
+  },
+  {
+    "source": "baidu.svg",
+    "output": "baidu.svg",
+    "action": "copied"
+  },
+  {
+    "source": "bilibili.svg",
+    "output": "bilibili.svg",
+    "action": "copied"
+  },
+  {
+    "source": "bytedance.svg",
+    "output": "bytedance.svg",
+    "action": "copied"
+  },
+  {
+    "source": "claude.svg",
+    "output": "claude.svg",
+    "action": "copied"
+  },
+  {
+    "source": "deepseek.svg",
+    "output": "deepseek.svg",
+    "action": "copied"
+  },
+  {
+    "source": "didi.svg",
+    "output": "didi.svg",
+    "action": "copied"
+  },
+  {
+    "source": "google.svg",
+    "output": "google.svg",
+    "action": "copied"
+  },
+  {
+    "source": "honor.svg",
+    "output": "honor.svg",
+    "action": "copied"
+  },
+  {
+    "source": "huawei.svg",
+    "output": "huawei.svg",
+    "action": "copied"
+  },
+  {
+    "source": "jd.svg",
+    "output": "jd.svg",
+    "action": "copied"
+  },
+  {
+    "source": "kimi.svg",
+    "output": "kimi.svg",
+    "action": "copied"
+  },
+  {
+    "source": "kuaishou.svg",
+    "output": "kuaishou.svg",
+    "action": "copied"
+  },
+  {
+    "source": "megvii.png",
+    "output": "megvii-black-white.png",
+    "action": "converted to black background / white logo"
+  },
+  {
+    "source": "meituan.svg",
+    "output": "meituan.svg",
+    "action": "copied"
+  },
+  {
+    "source": "meta.svg",
+    "output": "meta.svg",
+    "action": "copied"
+  },
+  {
+    "source": "microsoft.svg",
+    "output": "microsoft.svg",
+    "action": "copied"
+  },
+  {
+    "source": "mihoyo.svg",
+    "output": "mihoyo.svg",
+    "action": "copied"
+  },
+  {
+    "source": "minimax.svg",
+    "output": "minimax.svg",
+    "action": "copied"
+  },
+  {
+    "source": "modelbest.svg",
+    "output": "modelbest.svg",
+    "action": "copied"
+  },
+  {
+    "source": "netease-cloud-music.svg",
+    "output": "netease-cloud-music.svg",
+    "action": "copied"
+  },
+  {
+    "source": "openai.svg",
+    "output": "openai.svg",
+    "action": "copied"
+  },
+  {
+    "source": "oppo.svg",
+    "output": "oppo.svg",
+    "action": "copied"
+  },
+  {
+    "source": "pinduoduo.svg",
+    "output": "pinduoduo.svg",
+    "action": "copied"
+  },
+  {
+    "source": "sensetime.png",
+    "output": "sensetime.png",
+    "action": "copied"
+  },
+  {
+    "source": "shengshu-vidu.svg",
+    "output": "shengshu-vidu.svg",
+    "action": "copied"
+  },
+  {
+    "source": "stepfun.svg",
+    "output": "stepfun.svg",
+    "action": "copied"
+  },
+  {
+    "source": "tencent.svg",
+    "output": "tencent.svg",
+    "action": "copied"
+  },
+  {
+    "source": "tesla.svg",
+    "output": "tesla.svg",
+    "action": "copied"
+  },
+  {
+    "source": "tripdotcom.svg",
+    "output": "tripdotcom.svg",
+    "action": "copied"
+  },
+  {
+    "source": "vast-dark.svg",
+    "output": "vast-dark.svg",
+    "action": "copied"
+  },
+  {
+    "source": "vast.svg",
+    "output": "vast.svg",
+    "action": "copied"
+  },
+  {
+    "source": "vivo.svg",
+    "output": "vivo.svg",
+    "action": "copied"
+  },
+  {
+    "source": "xiaohongshu.svg",
+    "output": "xiaohongshu.svg",
+    "action": "copied"
+  },
+  {
+    "source": "xiaomi.svg",
+    "output": "xiaomi.svg",
+    "action": "copied"
+  },
+  {
+    "source": "zhipu.svg",
+    "output": "zhipu.svg",
+    "action": "copied"
+  }
+]

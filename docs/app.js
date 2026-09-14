@@ -904,8 +904,11 @@ const roleGuides = {
 };
 
 const state = {
-  activeRoleId: roles[0].id
+  activeRoleId: roles[0].id,
+  openCategory: roles[0].category
 };
+
+const categoryOrder = ["技术类", "产品岗", "运营类", "市场类", "职能类"];
 
 const els = {
   tabs: document.querySelector("#role-tabs"),
@@ -935,16 +938,44 @@ function render() {
 }
 
 function renderTabs() {
-  els.tabs.innerHTML = roles.map((role) => `
-    <button type="button" class="${role.id === state.activeRoleId ? "active" : ""}" data-role-id="${role.id}">
-      <span>${escapeHtml(role.category)}</span>
-      ${escapeHtml(role.title)}
-    </button>
-  `).join("");
+  const categories = categoryOrder.filter((category) => roles.some((role) => role.category === category));
+  els.tabs.innerHTML = categories.map((category) => {
+    const categoryRoles = roles.filter((role) => role.category === category);
+    const isOpen = category === state.openCategory;
+    const activeRole = categoryRoles.find((role) => role.id === state.activeRoleId);
+
+    return `
+      <article class="role-category ${isOpen ? "open" : ""}">
+        <button type="button" class="category-trigger" data-category="${escapeHtml(category)}" aria-expanded="${isOpen}">
+          <span>
+            <strong>${escapeHtml(category)}</strong>
+            <em>${categoryRoles.length} 个岗位${activeRole ? ` · 当前：${escapeHtml(activeRole.title)}` : ""}</em>
+          </span>
+          <b aria-hidden="true">${isOpen ? "收起" : "展开"}</b>
+        </button>
+        <div class="category-roles">
+          ${categoryRoles.map((role) => `
+            <button type="button" class="${role.id === state.activeRoleId ? "active" : ""}" data-role-id="${role.id}">
+              ${escapeHtml(role.title)}
+            </button>
+          `).join("")}
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  els.tabs.querySelectorAll("[data-category]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.openCategory = button.dataset.category === state.openCategory ? "" : button.dataset.category;
+      renderTabs();
+    });
+  });
 
   els.tabs.querySelectorAll("[data-role-id]").forEach((button) => {
     button.addEventListener("click", () => {
       state.activeRoleId = button.dataset.roleId;
+      const activeRole = roles.find((role) => role.id === state.activeRoleId);
+      state.openCategory = activeRole?.category || state.openCategory;
       render();
       window.scrollTo({ top: 0, behavior: "smooth" });
     });

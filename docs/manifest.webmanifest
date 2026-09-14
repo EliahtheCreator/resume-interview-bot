@@ -1,7 +1,7 @@
 {
   "name": "AI 面试资料库",
   "short_name": "面试资料库",
-  "description": "AI 产品经理、视频生成算法和招聘 HR 的免费面试资料库。",
+  "description": "覆盖 AI 产品、算法、AI Infra、运营、销售、HR 和财务的免费面试资料库。",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

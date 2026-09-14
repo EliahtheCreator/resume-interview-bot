@@ -1,14 +1,15 @@
 :root {
-  --bg: #f6f5f1;
-  --panel: #ffffff;
-  --soft: #fbfaf7;
-  --ink: #222426;
-  --muted: #68717b;
-  --line: #d9d7cf;
-  --accent: #176b5d;
-  --accent-strong: #0f4c42;
-  --blue: #275c9d;
-  --shadow: 0 18px 48px rgba(26, 30, 33, 0.08);
+  --bg: #050608;
+  --panel: #0e1014;
+  --soft: #15181e;
+  --ink: #f7f8fa;
+  --muted: #b8c0cc;
+  --line: rgba(225, 231, 239, 0.28);
+  --accent: #e3e9f2;
+  --accent-strong: #ffffff;
+  --blue: #c9d8ff;
+  --metal: linear-gradient(135deg, #ffffff 0%, #8d96a3 18%, #f6f8fb 38%, #5f6671 58%, #d9dfe8 78%, #7b838f 100%);
+  --shadow: 0 22px 60px rgba(0, 0, 0, 0.48);
 }
 
 * {
@@ -92,10 +93,12 @@ h3 {
   display: inline-flex;
   align-items: center;
   min-height: 32px;
-  border: 1px solid rgba(23, 107, 93, 0.26);
+  border: 1px solid transparent;
   border-radius: 999px;
   color: var(--accent);
-  background: rgba(23, 107, 93, 0.08);
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    var(--metal) border-box;
   padding: 0 12px;
   font-size: 13px;
   font-weight: 760;
@@ -110,9 +113,11 @@ h3 {
 }
 
 .role-category {
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--panel);
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    var(--metal) border-box;
   box-shadow: var(--shadow);
   overflow: hidden;
 }
@@ -152,9 +157,12 @@ h3 {
 }
 
 .category-trigger b {
-  border: 1px solid rgba(23, 107, 93, 0.24);
+  border: 1px solid transparent;
   border-radius: 999px;
   color: var(--accent);
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    var(--metal) border-box;
   flex: 0 0 auto;
   font-size: 12px;
   padding: 5px 9px;
@@ -162,8 +170,7 @@ h3 {
 
 .role-category.open,
 .role-category:hover {
-  border-color: var(--accent);
-  outline: 3px solid rgba(23, 107, 93, 0.12);
+  outline: 3px solid rgba(227, 233, 242, 0.12);
 }
 
 .category-roles {
@@ -179,9 +186,11 @@ h3 {
 }
 
 .category-roles button {
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--soft);
+  background:
+    linear-gradient(var(--soft), var(--soft)) padding-box,
+    var(--metal) border-box;
   color: var(--ink);
   cursor: pointer;
   min-height: 52px;
@@ -191,8 +200,9 @@ h3 {
 
 .category-roles button.active,
 .category-roles button:hover {
-  border-color: var(--accent);
-  background: rgba(23, 107, 93, 0.08);
+  background:
+    linear-gradient(#1e222a, #1e222a) padding-box,
+    var(--metal) border-box;
   color: var(--accent-strong);
   font-weight: 760;
 }
@@ -204,8 +214,10 @@ h3 {
 
 .role-hero,
 .section {
-  background: var(--panel);
-  border: 1px solid var(--line);
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    var(--metal) border-box;
+  border: 1px solid transparent;
   border-radius: 8px;
   box-shadow: var(--shadow);
   padding: 24px;
@@ -237,9 +249,11 @@ h3 {
 }
 
 .profile-grid p {
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--soft);
+  background:
+    linear-gradient(var(--soft), var(--soft)) padding-box,
+    var(--metal) border-box;
   color: var(--muted);
   line-height: 1.72;
   padding: 16px;
@@ -255,9 +269,11 @@ h3 {
 .qa-card,
 .plain-list,
 .source-list {
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--soft);
+  background:
+    linear-gradient(var(--soft), var(--soft)) padding-box,
+    var(--metal) border-box;
 }
 
 .card {
@@ -292,27 +308,33 @@ h3 {
 }
 
 .answer-block {
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
   color: var(--muted);
+  background:
+    linear-gradient(var(--soft), var(--soft)) padding-box,
+    var(--metal) border-box;
   line-height: 1.72;
   margin-top: 12px;
   padding: 14px;
 }
 
 .answer-block.strong {
-  background: #ffffff;
-  border-color: rgba(23, 107, 93, 0.24);
+  background:
+    linear-gradient(#10141a, #10141a) padding-box,
+    var(--metal) border-box;
 }
 
 .answer-block.weak {
-  background: #fff8f2;
-  border-color: rgba(188, 94, 39, 0.22);
+  background:
+    linear-gradient(#17130f, #17130f) padding-box,
+    var(--metal) border-box;
 }
 
 .answer-block.risk {
-  background: #f7f9ff;
-  border-color: rgba(39, 92, 157, 0.2);
+  background:
+    linear-gradient(#101522, #101522) padding-box,
+    var(--metal) border-box;
 }
 
 .answer-label {
@@ -337,9 +359,9 @@ h3 {
 }
 
 .note-row span {
-  border: 1px solid rgba(39, 92, 157, 0.2);
+  border: 1px solid rgba(227, 233, 242, 0.34);
   border-radius: 999px;
-  background: rgba(39, 92, 157, 0.07);
+  background: rgba(227, 233, 242, 0.08);
   color: var(--blue);
   font-size: 12px;
   padding: 5px 9px;
@@ -368,9 +390,11 @@ h3 {
 .follow-card,
 .framework-card,
 .rubric-item {
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 8px;
-  background: var(--soft);
+  background:
+    linear-gradient(var(--soft), var(--soft)) padding-box,
+    var(--metal) border-box;
 }
 
 .risk-card,
@@ -397,7 +421,9 @@ h3 {
 }
 
 .follow-card {
-  background: #ffffff;
+  background:
+    linear-gradient(#10141a, #10141a) padding-box,
+    var(--metal) border-box;
   border-left: 4px solid var(--accent);
 }
 
@@ -430,7 +456,7 @@ h3 {
 }
 
 .rubric-item span {
-  border: 1px solid rgba(23, 107, 93, 0.24);
+  border: 1px solid rgba(227, 233, 242, 0.36);
   border-radius: 999px;
   color: var(--accent);
   flex: 0 0 auto;
@@ -457,9 +483,11 @@ h3 {
 }
 
 .source-list a {
-  border: 1px solid rgba(23, 107, 93, 0.24);
+  border: 1px solid transparent;
   border-radius: 999px;
-  background: #fff;
+  background:
+    linear-gradient(var(--panel), var(--panel)) padding-box,
+    var(--metal) border-box;
   padding: 8px 12px;
   text-decoration: none;
 }

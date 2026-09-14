@@ -2,7 +2,7 @@ const roles = [
   {
     id: "ai_pm",
     title: "AI 产品经理",
-    category: "产品岗",
+    category: "产品类",
     summary: "核心不是“会不会说 AI”，而是能否把用户问题、模型能力、产品体验、评估指标和上线风险连成闭环。",
     knowledge: [
       {
@@ -953,7 +953,7 @@ const state = {
   openCategory: roles[0].category
 };
 
-const categoryOrder = ["技术类", "产品岗", "运营类", "市场类", "职能类"];
+const categoryOrder = ["技术类", "产品类", "运营类", "市场类", "职能类"];
 
 const els = {
   tabs: document.querySelector("#role-tabs"),

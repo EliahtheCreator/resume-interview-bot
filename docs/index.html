@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#050608" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="styles.css?v=library-v15" />
+    <link rel="stylesheet" href="styles.css?v=library-v16" />
     <style>
 
     :root {
@@ -755,6 +755,27 @@
       pointer-events: none;
     }
 
+    .headline-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .library-kicker {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-family: "Orbitron", "Eurostile", "Avenir Next", "DIN Alternate", Arial, Helvetica, sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-align: center;
+      text-shadow:
+        0 0 2px rgba(255, 255, 255, 0.58),
+        0 0 18px rgba(255, 255, 255, 0.28);
+      text-transform: none;
+    }
+
     .boundary-title span {
       display: block;
       width: min(94vw, 1120px);
@@ -1148,6 +1169,11 @@
         white-space: normal;
       }
 
+      .library-kicker {
+        font-size: 15px;
+        line-height: 1.25;
+      }
+
       .hud {
         opacity: calc(var(--intro-visibility) * 0.32);
       }
@@ -1207,9 +1233,12 @@
         </main>
         <section class="button-space">
           <div class="lower-content">
-            <h1 class="boundary-title" aria-label="让每一次求职选择，都更接近真实的自己。">
-              <span>让每一次求职选择，都更接近真实的自己。</span>
-            </h1>
+            <div class="headline-stack">
+              <p class="library-kicker">AI Interview Question Bank</p>
+              <h1 class="boundary-title" aria-label="让每一次求职选择，都更接近真实的自己。">
+                <span>让每一次求职选择，都更接近真实的自己。</span>
+              </h1>
+            </div>
             <button class="experience-button" id="experienceButton" type="button">立即体验</button>
           </div>
         </section>
@@ -1327,6 +1356,7 @@
     let glitchBursts = makeRandomGlitchBursts();
     let previousElapsed = 0;
     let activeGlitchId = null;
+    let lockedTitleVisibility = 0;
 
     logos.forEach((item) => {
       const img = new Image();
@@ -1418,7 +1448,8 @@
       const progress = elapsed / loopMs;
       document.documentElement.style.setProperty("--loop-progress", progress.toFixed(4));
       const titleVisibility = elapsed < firstHoldMs ? smoothstep(0.02, 0.92, elapsed / firstHoldMs) : 1;
-      document.documentElement.style.setProperty("--title-visibility", titleVisibility.toFixed(3));
+      lockedTitleVisibility = Math.max(lockedTitleVisibility, titleVisibility);
+      document.documentElement.style.setProperty("--title-visibility", lockedTitleVisibility.toFixed(3));
 
       const index = findLogoIndex(elapsed);
       const inLogoPhase = index >= 0;
@@ -1656,6 +1687,6 @@
     requestAnimationFrame(render);
   
     </script>
-    <script src="app.js?v=library-v15" type="module"></script>
+    <script src="app.js?v=library-v16" type="module"></script>
   </body>
 </html>

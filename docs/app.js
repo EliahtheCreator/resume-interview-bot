@@ -58,12 +58,6 @@ const roles = [
       "不知道模型错误会如何影响真实业务。",
       "把算法、研发、业务都说成别人负责，自己的产品贡献不清。"
     ],
-    checklist: [
-      "准备 2 个 AI 产品案例，每个案例写清用户、方案、指标、风险。",
-      "准备 1 个模型效果不稳定时的上线取舍案例。",
-      "准备 1 套 AI 产品指标：产品指标、模型指标、风险指标。",
-      "准备解释一次“为什么不用规则/人工/普通流程优化”。"
-    ],
     sources: [
       { label: "Google People + AI Guidebook", url: "https://pair.withgoogle.com/guidebook/" },
       { label: "Google HEART Framework", url: "https://research.google/pubs/measuring-the-user-experience-on-a-large-scale-user-centered-metrics-for-web-applications/" }
@@ -127,12 +121,6 @@ const roles = [
       "把视频生成问题当成图像生成问题回答，忽略时间维度。",
       "没有 failure case 分类和定位思路。",
       "只看论文指标，不考虑线上速度、成本、稳定性和安全。"
-    ],
-    checklist: [
-      "准备 1 个最熟项目：数据、模型、训练、评测、结论。",
-      "准备 3 类 failure case：闪烁、身份漂移、动作异常。",
-      "准备一套视频生成评测维度：质量、一致性、对齐、运动、成本。",
-      "准备质量/速度/显存/成本之间的取舍回答。"
     ],
     sources: [
       { label: "VBench: Comprehensive Benchmark Suite for Video Generative Models", url: "https://arxiv.org/abs/2311.17982" },
@@ -247,14 +235,6 @@ const roles = [
       "把 HR 面做成技术面，或者在前置沟通时过度承诺薪资、职责和发展。",
       "只关注候选人是否接受 Offer，不关注入职前流失和候选人体验。"
     ],
-    checklist: [
-      "准备 1 个完整招聘案例：岗位背景、画像、渠道、漏斗、结果。",
-      "背熟常见招聘指标：time to fill、time to hire、offer acceptance rate、quality of hire。",
-      "准备 1 个业务方改 JD 的推进案例。",
-      "准备 1 个候选人风险识别案例。",
-      "准备一套 HR 面问题：岗位理解、经历深挖、职业规划、求职动机、其他流程、择业因素和到岗信息。",
-      "准备 1 个候选人从面试通过到 Offer 再到入职的跟进案例。"
-    ],
     sources: [
       { label: "SHRM Recruiting Metrics", url: "https://www.shrm.org/topics-tools/news/talent-acquisition/targeted-recruiting-metrics-will-improve-hiring" },
       { label: "LinkedIn Talent Blog: Recruiting metrics", url: "https://www.linkedin.com/business/talent/blog/talent-strategy/recruiting-metrics" },
@@ -322,12 +302,6 @@ const roles = [
       "没有可观测性意识，排障只靠猜。",
       "优化 GPU 利用率时忽视成本、稳定性和用户延迟。"
     ],
-    checklist: [
-      "准备一个推理服务延迟排查案例。",
-      "准备一套 AI Infra 指标：延迟、吞吐、错误率、GPU 利用率、成本。",
-      "复习 Kubernetes、Slurm、Ray 的适用场景。",
-      "准备一个训练或推理平台的架构图讲法。"
-    ],
     sources: [
       { label: "AIInfraInterviews", url: "https://aiinfrainterviews.com/ai-infra-interview-questions" },
       { label: "MLOps Interview Questions", url: "https://datasciencehired.com/blog/mlops-model-deployment-interview-questions/" },
@@ -393,12 +367,6 @@ const roles = [
       "只追求低价促销，忽视利润、库存和用户质量。",
       "不知道不同渠道流量的成本和转化差异。"
     ],
-    checklist: [
-      "准备 1 个活动复盘案例。",
-      "背熟 GMV、转化率、客单价、ROI、复购率、库存周转。",
-      "准备一个转化率下滑诊断案例。",
-      "准备一次竞品分析或选品逻辑。"
-    ],
     sources: [
       { label: "BarRaiser E-commerce Operations Questions", url: "https://www.barraiser.com/interview-questions/e-commerce-operations-manager-interview-questions" },
       { label: "MultiplyMii Ecommerce Operations Manager", url: "https://www.multiplymii.com/interview-repository/ecommerce-operations-manager" }
@@ -462,12 +430,6 @@ const roles = [
       "只讲用户反馈，不会量化优先级。",
       "活动复盘只看参与人数，不看激活、留存和转化。",
       "不会和产品研发协同，只做执行不做判断。"
-    ],
-    checklist: [
-      "准备一个功能使用率提升案例。",
-      "准备一个活动策划和复盘案例。",
-      "背熟激活、留存、转化、功能渗透率等指标。",
-      "准备一个用户反馈转产品需求的案例。"
     ],
     sources: [
       { label: "Teal Product Operations Interview Questions", url: "https://tealhq.com/career-paths/product-operations-manager-interview-questions" },
@@ -533,12 +495,6 @@ const roles = [
       "遇到价格异议只会降价，不会讲方案价值和 TCO。",
       "分不清使用人、技术评估人、采购和决策人。"
     ],
-    checklist: [
-      "准备一套客户需求问诊清单。",
-      "理解 GPU 服务器基础配置：GPU、CPU、内存、网络、存储、供电、散热。",
-      "准备一个价格异议处理案例。",
-      "准备一个售前协同和 POC 推进案例。"
-    ],
     sources: [
       { label: "NVIDIA Sales Interview Questions", url: "https://www.jobmentis.com/en/interviews/nvidia/sales" },
       { label: "Supermicro AI Data Center GTM Podcast", url: "https://www.dcsmi.com/podcast/ep.-182-yong-tan-global-director-ai-data-center-business-development-sales-at-supermicro-data-center-go-to-market-podcast?hs_amp=true" }
@@ -602,12 +558,6 @@ const roles = [
       "处理组织问题时过早下结论，没有诊断过程。",
       "只听业务负责人单方说法，缺少事实和数据。",
       "人才盘点停留在表格，没有后续动作。"
-    ],
-    checklist: [
-      "准备一个业务问题转 HR 方案的案例。",
-      "准备一个绩效/员工关系处理案例。",
-      "理解人才盘点、绩效管理、组织诊断和管理者辅导。",
-      "准备说明 HRBP 如何衡量自己工作价值。"
     ],
     sources: [
       { label: "FirstHR HR Business Partner Questions", url: "https://firsthr.app/templates/hiring/hr-business-partner-interview-questions" },
@@ -673,18 +623,285 @@ const roles = [
       "Excel 能力只停留在函数名，讲不出实际分析过程。",
       "忽视数据口径、版本和异常值。"
     ],
-    checklist: [
-      "复习三大报表及勾稽关系。",
-      "准备一个预算差异分析案例。",
-      "准备一个 Excel 财务分析案例。",
-      "练习用业务语言解释财务指标。"
-    ],
     sources: [
       { label: "InterviewPilot Financial Analyst Guide", url: "https://www.interviewpilot.app/interview-guides/financial-analyst" },
       { label: "FP&A Interview Questions", url: "https://www.analystvault.org/answers/fpa" }
     ]
   }
 ];
+
+const roleGuides = {
+  ai_pm: {
+    profile: [
+      "连接用户问题、模型能力、产品体验和商业目标，能把模糊需求拆成可验证的产品方案。",
+      "强候选人通常能讲清“为什么需要 AI、哪里不该用 AI、上线后如何评估、失败时怎么兜底”。"
+    ],
+    dimensions: [
+      { title: "问题定义", points: ["用户痛点是否真实高频", "是否能区分新鲜感和刚需", "是否能说明 AI 相比规则/人工的增量价值"] },
+      { title: "AI 产品判断", points: ["理解模型能力边界", "能设计人机协同和异常兜底", "能处理幻觉、延迟、成本和安全风险"] },
+      { title: "指标与验证", points: ["产品指标、模型指标和风险指标分层", "能设计灰度/A-B/人评", "能用数据决定继续、收缩或回滚"] },
+      { title: "跨团队推进", points: ["能和算法、研发、设计、业务对齐验收标准", "能拆优先级和里程碑", "能解释 trade-off"] }
+    ],
+    followUps: [
+      "你怎么证明这个问题不用 AI 也解决不了？",
+      "模型回答错一次，会对用户或业务造成什么后果？",
+      "如果准确率提高但延迟和成本翻倍，你怎么取舍？",
+      "你会如何设计人工兜底和持续标注闭环？",
+      "上线第一周你最关注哪三个指标？"
+    ],
+    framework: {
+      title: "AI 产品回答框架",
+      steps: ["场景与用户", "现有替代方案和痛点", "AI 方案与人机分工", "指标验证", "风险兜底", "迭代闭环"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "能把模型能力、产品流程和上线风险连起来", watch: "只会说接入大模型或生成内容" },
+      { name: "项目/业务理解", weight: "高", high: "能说明业务目标、用户路径和商业约束", watch: "只讲功能，不讲价值和约束" },
+      { name: "问题分析能力", weight: "中", high: "能拆指标、拆风险、拆验证方法", watch: "遇到不稳定只说继续优化模型" },
+      { name: "表达清晰", weight: "中", high: "结构化表达，先结论后证据", watch: "堆概念，听不出优先级" },
+      { name: "简历可信度", weight: "低", high: "项目角色、贡献和数据能对上", watch: "贡献边界模糊，成果像团队整体成绩" }
+    ]
+  },
+  video_algorithm: {
+    profile: [
+      "围绕视频生成、多模态生成或模型评测做研究/工程工作，重点看时序建模、实验能力和 failure case 定位。",
+      "强候选人不是背论文名，而是能把数据、模型、训练、评测、推理成本和个人贡献讲清楚。"
+    ],
+    dimensions: [
+      { title: "技术基础", points: ["扩散/Transformer/时空注意力理解", "视频相对图像的时间维度差异", "训练与采样流程清晰"] },
+      { title: "实验能力", points: ["能设计对照实验", "能解释指标变化", "能从失败样本定位原因"] },
+      { title: "评测意识", points: ["知道 FVD/VBench/人评的局限", "能设计质量、一致性、对齐、运动维度", "能看线上失败率"] },
+      { title: "工程落地", points: ["理解显存、速度、吞吐和成本", "能讲部署约束", "能平衡效果和可用性"] }
+    ],
+    followUps: [
+      "这个实验的 baseline 是什么，变量控制住了吗？",
+      "闪烁、身份漂移和动作异常分别可能来自哪里？",
+      "你怎么证明指标提升不是数据偏差？",
+      "如果人评和自动指标冲突，你相信哪个，为什么？",
+      "推理速度不达标时，你会优先优化哪一层？"
+    ],
+    framework: {
+      title: "技术项目回答框架",
+      steps: ["任务定义", "数据与分布", "模型路线", "实验设计", "评测结果", "失败分析", "工程取舍", "个人贡献"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "能解释模型机制、实验设计和失败定位", watch: "只堆 diffusion、LoRA、Transformer 等名词" },
+      { name: "项目/业务理解", weight: "高", high: "知道研究结果如何影响产品质量、速度和成本", watch: "只讲论文指标，不讲落地约束" },
+      { name: "问题分析能力", weight: "中", high: "能分类 failure case 并提出验证实验", watch: "凭肉眼猜原因，没有对照" },
+      { name: "表达清晰", weight: "中", high: "项目叙述能从目标到结论闭环", watch: "讲了很多细节但没有主线" },
+      { name: "简历可信度", weight: "低", high: "能讲清自己负责的数据、实验或模块", watch: "所有成果都像团队共同产出" }
+    ]
+  },
+  ai_infra: {
+    profile: [
+      "负责训练、推理、GPU 集群、调度、部署、监控或 MLOps 平台，核心是系统稳定性和资源效率。",
+      "强候选人能把吞吐、延迟、GPU 利用率、成本、SLA 和可观测性放在一条链路里分析。"
+    ],
+    dimensions: [
+      { title: "系统设计", points: ["训练/推理/调度边界清晰", "能画出关键链路", "知道瓶颈可能在哪里"] },
+      { title: "资源效率", points: ["理解 GPU、显存、网络、存储", "能平衡利用率和 SLA", "能做容量规划"] },
+      { title: "稳定性", points: ["日志、指标、trace、告警齐全", "能先止血再复盘", "理解降级和回滚"] },
+      { title: "平台化意识", points: ["多租户、权限、配额、版本管理", "平台体验和运维成本", "自动化和标准化"] }
+    ],
+    followUps: [
+      "P99 上升但平均延迟不变，说明什么？",
+      "GPU 利用率高但吞吐没上去，你会看哪些指标？",
+      "训练任务失败后，如何避免从头重跑？",
+      "多租户抢资源时，优先级和隔离怎么设计？",
+      "你怎么给一个模型版本做灰度和回滚？"
+    ],
+    framework: {
+      title: "Infra 排障回答框架",
+      steps: ["影响范围", "链路拆分", "资源指标", "近期变更", "临时止血", "根因验证", "长期修复"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "理解训练/推理链路和 GPU 集群瓶颈", watch: "只会说 Kubernetes、Docker、GPU 关键词" },
+      { name: "项目/业务理解", weight: "高", high: "能把系统指标映射到业务 SLA 和成本", watch: "只追技术方案，不看业务影响" },
+      { name: "问题分析能力", weight: "中", high: "能按链路定位、先止血再根因", watch: "排障靠猜，没有指标" },
+      { name: "表达清晰", weight: "中", high: "能用架构层次讲清复杂系统", watch: "工具名很多，边界不清" },
+      { name: "简历可信度", weight: "低", high: "能说清规模、QPS、GPU 数、SLA 或成本结果", watch: "缺少任何可核验规模信息" }
+    ]
+  },
+  ecommerce_ops: {
+    profile: [
+      "围绕 GMV、流量、转化、客单、复购、ROI 和库存做经营动作，既要懂数据，也要懂货品和用户。",
+      "强候选人能从指标下钻到具体动作，再用复盘证明动作是否有效。"
+    ],
+    dimensions: [
+      { title: "经营拆解", points: ["GMV 公式清晰", "能拆流量、转化、客单、复购", "关注利润和库存"] },
+      { title: "活动运营", points: ["目标、人群、货品、权益和节奏完整", "能监控过程数据", "复盘能沉淀动作"] },
+      { title: "货品与渠道", points: ["懂选品、定价、详情页、评价", "区分自然/付费/内容/私域流量", "能看竞品"] },
+      { title: "数据验证", points: ["不凭感觉促销", "能做前后对比", "能解释 ROI 和边际收益"] }
+    ],
+    followUps: [
+      "GMV 涨了但利润降了，你怎么看？",
+      "转化率下滑时，怎么判断是价格问题还是流量质量问题？",
+      "大促复盘里哪些增长不是运营动作带来的？",
+      "库存压力和品牌价格体系冲突时怎么取舍？",
+      "你会如何判断一个爆品还能不能继续投放？"
+    ],
+    framework: {
+      title: "运营诊断回答框架",
+      steps: ["目标", "指标拆解", "主要掉点", "原因假设", "运营动作", "验证方法", "复盘沉淀"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "能围绕 GMV、ROI、库存和利润做拆解", watch: "只会说做活动、发券、降价" },
+      { name: "项目/业务理解", weight: "高", high: "理解货品、渠道、人群和平台机制", watch: "只看单场数据，不看长期经营" },
+      { name: "问题分析能力", weight: "中", high: "能按漏斗定位掉点", watch: "一出问题就促销" },
+      { name: "表达清晰", weight: "中", high: "案例有目标、动作、结果和复盘", watch: "流水账式描述活动过程" },
+      { name: "简历可信度", weight: "低", high: "能说清指标口径和自己负责部分", watch: "只写 GMV 增长，没有基数和动作" }
+    ]
+  },
+  product_ops: {
+    profile: [
+      "连接用户、产品和数据，用运营动作提升激活、留存、转化、功能渗透和用户反馈闭环。",
+      "强候选人不是只会做活动，而是能说明运营动作为什么影响产品指标。"
+    ],
+    dimensions: [
+      { title: "用户理解", points: ["能做用户分层", "能识别不知道/不会用/不想用", "能处理反馈优先级"] },
+      { title: "数据指标", points: ["激活、留存、转化、渗透率", "能看漏斗和路径", "能排除埋点问题"] },
+      { title: "活动增长", points: ["目标、人群、权益、触达、路径完整", "关注长期价值", "能复盘转化质量"] },
+      { title: "跨团队协同", points: ["反馈能归类量化", "能推动产品/研发", "能把用户语言转成需求证据"] }
+    ],
+    followUps: [
+      "怎么判断用户是不知道功能，还是知道但不想用？",
+      "活动带来的新增用户留不下来，你怎么复盘？",
+      "一个大客户反馈和大量普通用户反馈冲突时，优先级怎么排？",
+      "指标下降时你怎么排除埋点或版本问题？",
+      "运营动作和产品改版同时发生，怎么判断谁有效？"
+    ],
+    framework: {
+      title: "产品运营案例框架",
+      steps: ["产品阶段", "目标用户", "核心指标", "漏斗掉点", "运营动作", "协同推进", "结果复盘"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "能把运营动作和产品指标连接", watch: "把产品运营等同于活动执行" },
+      { name: "项目/业务理解", weight: "高", high: "理解产品阶段、用户路径和业务目标", watch: "活动热闹但不知道服务什么目标" },
+      { name: "问题分析能力", weight: "中", high: "能分层看用户和漏斗", watch: "谁反馈大声就听谁" },
+      { name: "表达清晰", weight: "中", high: "案例能讲清目标、动作、指标和学习", watch: "只讲做了什么，不讲为什么" },
+      { name: "简历可信度", weight: "低", high: "指标、口径、周期和贡献边界清楚", watch: "只写参与运营，没有结果证据" }
+    ]
+  },
+  hardware_sales: {
+    profile: [
+      "面向算力硬件、GPU 服务器或 AI 数据中心方案销售，核心是需求诊断、方案匹配和复杂 B2B 推进。",
+      "强候选人能问出客户真实场景、预算、决策链和交付约束，而不是只报型号和价格。"
+    ],
+    dimensions: [
+      { title: "客户诊断", points: ["训练/推理/科研/私有化场景", "模型规模、并发、预算、交付", "机房供电散热约束"] },
+      { title: "硬件基础", points: ["GPU、CPU、显存、网络、存储", "整机/集群/维保/交付", "TCO 和扩展性"] },
+      { title: "复杂销售", points: ["识别决策人和使用人", "推进 POC 和采购流程", "处理价格、交期和竞品"] },
+      { title: "售前协同", points: ["结构化需求给技术", "把技术方案转商业价值", "管理客户预期"] }
+    ],
+    followUps: [
+      "客户说要 8 卡服务器，你怎么判断是不是真的需要？",
+      "竞品便宜 15%，你怎么回应？",
+      "POC 成功但采购迟迟不推进，你会查什么？",
+      "交期不确定时，如何管理客户和内部资源？",
+      "使用人认可但采购压价，你如何推进决策链？"
+    ],
+    framework: {
+      title: "B2B 销售回答框架",
+      steps: ["客户场景", "技术约束", "决策链", "方案匹配", "价值与 TCO", "风险管理", "下一步动作"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "理解算力硬件基础和方案约束", watch: "只会背型号和价格" },
+      { name: "项目/业务理解", weight: "高", high: "能识别客户场景、预算和采购流程", watch: "把所有询价都当高意向商机" },
+      { name: "问题分析能力", weight: "中", high: "能处理价格、交期、竞品和决策链问题", watch: "遇到异议只降价" },
+      { name: "表达清晰", weight: "中", high: "能把技术价值讲成客户收益", watch: "术语多但客户价值弱" },
+      { name: "简历可信度", weight: "低", high: "能讲清客单价、周期、角色和结果", watch: "只写跟进客户，没有成交或推进证据" }
+    ]
+  },
+  recruiting_hr: {
+    profile: [
+      "负责从岗位理解、人才画像、渠道触达、面试协调到 Offer 跟进的招聘闭环。",
+      "强候选人能用数据和证据判断候选人，而不是只强调沟通能力和执行力。"
+    ],
+    dimensions: [
+      { title: "岗位画像", points: ["把 JD 转成筛选标准", "能校准业务方", "能识别必备项和加分项"] },
+      { title: "候选人判断", points: ["看经历、能力、动机、稳定性", "区分经验不匹配和能力不匹配", "能写清推荐理由和风险"] },
+      { title: "招聘漏斗", points: ["渠道、简历、面试、Offer、到岗", "能定位掉点", "能复盘不通过原因"] },
+      { title: "候选人体验", points: ["前置沟通不过度承诺", "准确同步流程", "Offer 后跟进到入职"] }
+    ],
+    followUps: [
+      "业务方说“感觉不合适”，你怎么把评价变成可复用标准？",
+      "候选人经验不匹配但能力可能不错，你怎么判断？",
+      "前置沟通时哪些问题不该深问？",
+      "Offer 接受后仍有入职风险，你会怎么跟进？",
+      "如果业务方反馈慢影响候选人体验，你怎么推动？"
+    ],
+    framework: {
+      title: "招聘案例回答框架",
+      steps: ["岗位背景", "人才画像", "渠道策略", "筛选证据", "漏斗数据", "业务协同", "Offer 与到岗风险"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "懂招聘漏斗、画像校准和候选人判断", watch: "把招聘说成收简历约面试" },
+      { name: "项目/业务理解", weight: "高", high: "理解岗位目标和团队用人标准", watch: "只按 JD 字面筛人" },
+      { name: "问题分析能力", weight: "中", high: "能区分渠道、画像、流程和意向问题", watch: "一切问题都归因候选人少" },
+      { name: "表达清晰", weight: "中", high: "推荐/淘汰理由有证据", watch: "评价全是主观词" },
+      { name: "简历可信度", weight: "低", high: "能说清岗位、渠道、通过率和 Offer 结果", watch: "只写协助招聘，没有闭环" }
+    ]
+  },
+  hrbp: {
+    profile: [
+      "贴近业务负责人，围绕组织结构、人才、绩效、员工关系和管理者能力解决人力问题。",
+      "强候选人能先做组织诊断，再选择 HR 动作，而不是直接执行流程。"
+    ],
+    dimensions: [
+      { title: "业务理解", points: ["理解业务目标和组织阶段", "能识别关键岗位和瓶颈", "能把 HR 动作映射到业务结果"] },
+      { title: "组织诊断", points: ["看结构、目标、机制、能力、激励", "多方访谈和数据验证", "不只听单方反馈"] },
+      { title: "人才与绩效", points: ["人才盘点、继任、绩效改进", "区分能力、意愿和管理问题", "有后续动作"] },
+      { title: "员工关系风险", points: ["事实证据和流程合规", "兼顾员工体验和组织风险", "能处理敏感沟通"] }
+    ],
+    followUps: [
+      "业务负责人要求马上换人，你怎么判断是否合理？",
+      "人才盘点后，如果没有培养和保留动作，还有价值吗？",
+      "组织问题和个人绩效问题怎么区分？",
+      "如何证明 HRBP 工作对业务有价值？",
+      "员工关系处理中，你怎么平衡合规和体验？"
+    ],
+    framework: {
+      title: "HRBP 问题解决框架",
+      steps: ["业务目标", "组织现象", "事实数据", "原因诊断", "HR 方案", "风险控制", "效果衡量"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "能做组织诊断、绩效和人才动作", watch: "只讲员工关系和流程" },
+      { name: "项目/业务理解", weight: "高", high: "能把组织问题放进业务阶段理解", watch: "HR 动作和业务目标脱节" },
+      { name: "问题分析能力", weight: "中", high: "能从结构、机制、能力多角度拆因", watch: "一开始就站队或下结论" },
+      { name: "表达清晰", weight: "中", high: "场景、证据、处理和结果清楚", watch: "描述敏感案例时边界混乱" },
+      { name: "简历可信度", weight: "低", high: "能讲清组织规模、角色和影响", watch: "只写支持业务，没有具体问题" }
+    ]
+  },
+  finance: {
+    profile: [
+      "围绕财务核算、预算、报表、差异分析和业务沟通支持经营决策。",
+      "强候选人能用严谨口径处理数字，也能把财务结论翻译成业务能行动的语言。"
+    ],
+    dimensions: [
+      { title: "财务基础", points: ["三大报表和勾稽关系", "收入、成本、费用、现金流", "会计口径严谨"] },
+      { title: "分析能力", points: ["预算差异、量价结构拆解", "能解释一次性因素", "能提出动作建议"] },
+      { title: "工具能力", points: ["Excel 透视表、XLOOKUP、SUMIFS", "数据清洗和异常检查", "版本和口径管理"] },
+      { title: "业务沟通", points: ["先结论后原因", "把数字转成业务语言", "能和非财务同事协作"] }
+    ],
+    followUps: [
+      "净利润和经营现金流为什么可能方向相反？",
+      "费用超预算，是业务增长带来的合理超支还是管理问题？",
+      "Excel 结果出错，你通常怎么排查？",
+      "业务方不理解财务口径时，你怎么解释？",
+      "预算假设变化后，如何同步影响全年预测？"
+    ],
+    framework: {
+      title: "财务分析回答框架",
+      steps: ["口径确认", "数据来源", "差异拆解", "业务原因", "影响评估", "建议动作", "风险提示"]
+    },
+    rubric: [
+      { name: "专业能力", weight: "高", high: "财务概念扎实，能做预算和差异分析", watch: "只背定义，不会业务解释" },
+      { name: "项目/业务理解", weight: "高", high: "能理解数字背后的经营动作", watch: "只报表格结果，没有业务原因" },
+      { name: "问题分析能力", weight: "中", high: "能拆口径、量价、结构和一次性因素", watch: "只说超了多少" },
+      { name: "表达清晰", weight: "中", high: "能向非财务同事讲明白", watch: "术语过多，结论靠后" },
+      { name: "简历可信度", weight: "低", high: "能讲清数据源、模型和校验过程", watch: "只写熟练 Excel，没有场景" }
+    ]
+  }
+};
 
 const state = {
   activeRoleId: roles[0].id
@@ -721,6 +938,7 @@ function renderTabs() {
 
 function renderRole() {
   const role = roles.find((item) => item.id === state.activeRoleId) || roles[0];
+  const guide = roleGuides[role.id];
   els.content.innerHTML = `
     <article class="role-hero">
       <p class="eyebrow">${escapeHtml(role.category)}</p>
@@ -730,8 +948,28 @@ function renderRole() {
 
     <section class="section">
       <div class="section-head">
-        <p class="eyebrow">Knowledge</p>
-        <h2>核心知识点</h2>
+        <p class="eyebrow">01 / Role Profile</p>
+        <h2>岗位画像</h2>
+      </div>
+      <div class="profile-grid">
+        ${guide.profile.map((item) => `<p>${escapeHtml(item)}</p>`).join("")}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="eyebrow">02 / Assessment</p>
+        <h2>核心考察维度</h2>
+      </div>
+      <div class="knowledge-grid">
+        ${guide.dimensions.map(renderKnowledge).join("")}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="eyebrow">03 / Knowledge Map</p>
+        <h2>必备知识地图</h2>
       </div>
       <div class="knowledge-grid">
         ${role.knowledge.map(renderKnowledge).join("")}
@@ -740,34 +978,57 @@ function renderRole() {
 
     <section class="section">
       <div class="section-head">
-        <p class="eyebrow">Q&A</p>
+        <p class="eyebrow">04 / Q&A</p>
         <h2>常见问题与优秀回答</h2>
       </div>
       <div class="qa-list">
-        ${role.questions.map(renderQuestion).join("")}
+        ${role.questions.map((question, index) => renderQuestion(question, index, role)).join("")}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="eyebrow">05 / Weak Answer Patterns</p>
+        <h2>错误范本与风险点</h2>
+      </div>
+      <div class="risk-grid">
+        ${role.pitfalls.map((item, index) => `<article class="risk-card"><h3>风险 ${index + 1}</h3><p>${escapeHtml(item)}</p></article>`).join("")}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="eyebrow">06 / Follow-ups</p>
+        <h2>面试官追问方向</h2>
+      </div>
+      <div class="follow-grid">
+        ${guide.followUps.map((item) => `<article class="follow-card">${escapeHtml(item)}</article>`).join("")}
       </div>
     </section>
 
     <section class="section two-column">
       <div>
         <div class="section-head compact">
-          <p class="eyebrow">Pitfalls</p>
-          <h2>常见扣分点</h2>
+          <p class="eyebrow">07 / Framework</p>
+          <h2>回答框架</h2>
         </div>
-        <ul class="plain-list">${role.pitfalls.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        <article class="framework-card">
+          <h3>${escapeHtml(guide.framework.title)}</h3>
+          <ol>${guide.framework.steps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol>
+        </article>
       </div>
       <div>
         <div class="section-head compact">
-          <p class="eyebrow">Checklist</p>
-          <h2>面试前准备</h2>
+          <p class="eyebrow">08 / Rubric</p>
+          <h2>自查评分 Rubric</h2>
         </div>
-        <ul class="plain-list">${role.checklist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        <div class="rubric-list">${guide.rubric.map(renderRubric).join("")}</div>
       </div>
     </section>
 
     <section class="section source-section">
       <div class="section-head compact">
-        <p class="eyebrow">Sources</p>
+        <p class="eyebrow">09 / Sources</p>
         <h2>参考资料</h2>
       </div>
       <div class="source-list">${role.sources.map((source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.label)}</a>`).join("")}</div>
@@ -784,17 +1045,55 @@ function renderKnowledge(section) {
   `;
 }
 
-function renderQuestion(item, index) {
+function renderQuestion(item, index, role) {
   return `
     <article class="qa-card">
       <div class="question-index">${String(index + 1).padStart(2, "0")}</div>
       <div>
         <h3>${escapeHtml(item.q)}</h3>
-        <p class="answer">${escapeHtml(item.excellent)}</p>
+        <div class="answer-block strong">
+          <p class="answer-label">优秀回答</p>
+          <p>${escapeHtml(item.excellent)}</p>
+        </div>
+        <div class="answer-split">
+          <div class="answer-block weak">
+            <p class="answer-label">错误范本</p>
+            <p>${escapeHtml(buildWeakAnswer(item, role))}</p>
+          </div>
+          <div class="answer-block risk">
+            <p class="answer-label">风险点</p>
+            <p>${escapeHtml(buildRiskPoint(item, role))}</p>
+          </div>
+        </div>
         <div class="note-row">${item.notes.map((note) => `<span>${escapeHtml(note)}</span>`).join("")}</div>
       </div>
     </article>
   `;
+}
+
+function renderRubric(item) {
+  return `
+    <article class="rubric-item">
+      <div>
+        <h3>${escapeHtml(item.name)}</h3>
+        <span>${escapeHtml(item.weight)}权重</span>
+      </div>
+      <p><strong>高分表现：</strong>${escapeHtml(item.high)}</p>
+      <p><strong>风险信号：</strong>${escapeHtml(item.watch)}</p>
+    </article>
+  `;
+}
+
+function buildWeakAnswer(item, role) {
+  const avoided = item.notes.map((note) => note.replace(/^不要/, "").replace(/^要/, "")).slice(0, 2);
+  const generic = role.pitfalls[0] || "只给结论，没有证据、过程和取舍。";
+  return `只泛泛回答“我会沟通/我会优化/我会看数据”，没有围绕“${avoided.join("、")}”展开，也没有给出具体场景、判断依据和后续动作。典型扣分点是：${generic}`;
+}
+
+function buildRiskPoint(item, role) {
+  const notes = item.notes.slice(0, 2).join("；");
+  const pitfall = role.pitfalls[1] || role.pitfalls[0] || "缺少可验证证据。";
+  return `面试官可能会怀疑候选人只是知道概念，缺少真实处理经验。回答时至少补充：${notes}。如果继续停留在表面，容易暴露的问题是：${pitfall}`;
 }
 
 function escapeHtml(value) {

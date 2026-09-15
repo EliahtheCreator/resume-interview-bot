@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#050608" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="styles.css?v=library-v16" />
+    <link rel="stylesheet" href="styles.css?v=library-v17" />
     <style>
 
     :root {
@@ -334,6 +334,10 @@
 
     .logo.is-amazon-logo {
       transform: translateX(10px) translateZ(0);
+    }
+
+    .logo.is-apple-glitch {
+      animation: apple-screen-break 280ms steps(2, end) both;
     }
 
     .logo-shell.is-kimi-wordmark {
@@ -895,6 +899,46 @@
       }
     }
 
+    @keyframes apple-screen-break {
+      0%,
+      100% {
+        filter: brightness(1) contrast(1);
+        opacity: 1;
+        transform: translate3d(0, 0, 0) skewX(0deg);
+        clip-path: inset(0);
+      }
+      14% {
+        filter: brightness(1.9) contrast(1.55);
+        opacity: 0.88;
+        transform: translate3d(-12px, 0, 0) skewX(-3deg);
+        clip-path: inset(12% 0 64% 0);
+      }
+      31% {
+        filter: brightness(1.25) contrast(1.25);
+        opacity: 1;
+        transform: translate3d(14px, 1px, 0) skewX(2deg);
+        clip-path: inset(54% 0 23% 0);
+      }
+      48% {
+        filter: brightness(2.2) contrast(1.7);
+        opacity: 0.72;
+        transform: translate3d(-8px, -1px, 0);
+        clip-path: inset(30% 0 43% 0);
+      }
+      69% {
+        filter: brightness(1.4) contrast(1.35);
+        opacity: 0.94;
+        transform: translate3d(9px, 0, 0) skewX(-1deg);
+        clip-path: inset(73% 0 8% 0);
+      }
+      84% {
+        filter: brightness(1.8) contrast(1.5);
+        opacity: 0.82;
+        transform: translate3d(-4px, 0, 0);
+        clip-path: inset(0);
+      }
+    }
+
     @keyframes final-copy-glitch {
       0%,
       100% {
@@ -1183,6 +1227,7 @@
       .stage::before,
       .grain,
       .logo-shell.is-glitching .logo-combo,
+      .logo.is-apple-glitch,
       .final-copy.is-glitching,
       .glitch-field,
       .glitch-field::before,
@@ -1457,6 +1502,12 @@
       const inFinal = elapsed >= finalStartMs;
       const glitch = getGlitchBurst(elapsed);
       const isLogoGlitching = Boolean(glitch && glitch.target === "logo" && inLogoPhase);
+      const isAppleGlitching = Boolean(
+        glitch &&
+        glitch.target === "logo" &&
+        inLogoPhase &&
+        logos[index]?.name === "Apple"
+      );
       const isPostLogoGlitching = Boolean(glitch && glitch.target === "post-logo" && inBlackout);
       const isFinalGlitching = Boolean(glitch && glitch.target === "final" && inFinal);
 
@@ -1468,6 +1519,7 @@
       }
 
       logoShell.classList.toggle("is-glitching", isLogoGlitching);
+      logoImg.classList.toggle("is-apple-glitch", isAppleGlitching);
       finalCopy.classList.toggle("is-glitching", isFinalGlitching);
       glitchField.classList.toggle("is-active", isLogoGlitching || isPostLogoGlitching || isFinalGlitching);
       glitchVariants.forEach((variant) => glitchField.classList.toggle(variant, glitch && glitch.variant === variant));
@@ -1530,16 +1582,20 @@
     }
 
     function getGlitchBurst(time) {
-      return glitchBursts.find((burst) => time >= burst.at && time < burst.at + burst.duration);
+      return glitchBursts
+        .filter((burst) => time >= burst.at && time < burst.at + burst.duration)
+        .sort((a, b) => (b.priority || 0) - (a.priority || 0))[0];
     }
 
     function makeRandomGlitchBursts() {
       let id = 0;
       const alibabaIndex = logos.findIndex((logo) => logo.name === "Alibaba");
+      const appleIndex = logos.findIndex((logo) => logo.name === "Apple");
       const neteaseIndex = logos.findIndex((logo) => logo.name === "NetEase");
       const tripIndex = logos.findIndex((logo) => logo.name === "Trip.com");
       const vastIndex = logos.findIndex((logo) => logo.name === "Vast.ai");
       const tripGlitchDuration = Math.min(glitchDurationMs, Math.max(160, durations[tripIndex] * 0.34));
+      const appleGlitchDuration = Math.min(300, Math.max(220, durations[appleIndex] * 0.74));
       const vastGlitchDuration = glitchDurationMs;
       const firstByteDanceGlitch = {
         id: id += 1,
@@ -1573,6 +1629,15 @@
         target: "logo",
         variant: "is-variant-b"
       };
+      const appleGlitch = {
+        id: id += 1,
+        at: starts[appleIndex] + durations[appleIndex] * 0.13,
+        duration: appleGlitchDuration,
+        damage: 1.86,
+        priority: 2,
+        target: "logo",
+        variant: "is-variant-d"
+      };
       const vastGlitch = {
         id: id += 1,
         at: logoPhaseMs + 30,
@@ -1603,7 +1668,7 @@
         variant: "is-variant-d"
       };
 
-      return [firstByteDanceGlitch, alibabaGlitch, neteaseGlitch, tripGlitch, ...logoBursts, vastGlitch, finalGlitch].sort((a, b) => a.at - b.at);
+      return [firstByteDanceGlitch, alibabaGlitch, neteaseGlitch, tripGlitch, appleGlitch, ...logoBursts, vastGlitch, finalGlitch].sort((a, b) => a.at - b.at);
     }
 
     function makeRandomTimes({ count, min, max, minGap }) {
@@ -1687,6 +1752,6 @@
     requestAnimationFrame(render);
   
     </script>
-    <script src="app.js?v=library-v16" type="module"></script>
+    <script src="app.js?v=library-v17" type="module"></script>
   </body>
 </html>
